@@ -44,8 +44,24 @@ def main():
 
     html = urllib.request.urlopen(url).read()
     soup = BeautifulSoup(html)
-    myAttrs = {'class': 'results'}
+    myAttrs = {'class': 'c-result result'}
     uinfo = soup.find_all(name='div', attrs=myAttrs)
+
+    for result in uinfo:
+        #print( result )
+
+        #print(type(result))
+        myAttrs2 = {'class':'c-title-text'}
+        title = result.find(name='span', attrs=myAttrs2)
+        if title:
+            print(title.get_text())
+
+
+
+
+
+
+        print('------------------------------------------------------------------')
 
 
 
@@ -54,7 +70,7 @@ def main():
 
 
     # fillUnivList( uinfo, html )
-    print( uinfo )
+    #print( uinfo )
 
     '''
     path = "C:\\jingzl\\1.html"
