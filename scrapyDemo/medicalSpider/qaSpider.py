@@ -45,8 +45,10 @@ def fillUnivList( ulist, html ):
 
 def main():
     uinfo = []
-    url = "http://m.baidu.com/ssid=c2156c6a7a3530364e12/s?word=site%3Ayoulai.cn+%E7%B3%96%E5%B0%BF%E7%97%85%E8%B6%B3&sa=tb&ts=5343508&t_kt=0&ie=utf-8&rsv_t=7de61UzIHwLNAhxszrzb83X1WbW02ZqxCbXg2Mhg9rLxl5s0Jx6P&rsv_pq=11715403022720906433&sugid=12439476823165841995&rqlang=zh&rsv_sug4=4287&oq=site%3Ayoulai.cn%2B%E7%B3%96%E5%B0%BF%E7%97%85%E8%B6%B3"
+    #url = "http://m.baidu.com/ssid=c2156c6a7a3530364e12/s?word=site%3Ayoulai.cn+%E7%B3%96%E5%B0%BF%E7%97%85%E8%B6%B3&sa=tb&ts=5343508&t_kt=0&ie=utf-8&rsv_t=7de61UzIHwLNAhxszrzb83X1WbW02ZqxCbXg2Mhg9rLxl5s0Jx6P&rsv_pq=11715403022720906433&sugid=12439476823165841995&rqlang=zh&rsv_sug4=4287&oq=site%3Ayoulai.cn%2B%E7%B3%96%E5%B0%BF%E7%97%85%E8%B6%B3"
     # url = "http://m.baidu.com/ssid=c2156c6a7a3530364e12/s?pn=10&usm=1&word=site%3Ayoulai.cn+%E7%B3%96%E5%B0%BF%E7%97%85%E8%B6%B3&sa=np&rsv_pq=12218146811932497451&rsv_t=7336GooOmbKC9C78yQwKPjp3gOiEkAcWGv4DEe6lDkvrmNZRA0Ci&rqid=12218146811932497451&params_ssrt=smarty"
+    #url = "http://m.baidu.com/s?word=site%3Ayoulai.cn+%E8%85%B9%E7%97%9B"
+    url = "http://m.baidu.com/s?pn=30&usm=1&word=site%3Ayoulai.cn%20%E8%85%B9%E7%97%9B"
     # html = getHTMLText( url )
 
     fakeHeaders = {
@@ -67,7 +69,7 @@ def main():
     html = response.read()
 
 
-    path = "C:\\jingzl\\2.html"
+    path = "D:\\2-1.html"
     with open(path, 'wb') as f:
         f.write(html)
         f.close()
@@ -76,7 +78,7 @@ def main():
 
 
     soup = BeautifulSoup(html)
-    myAttrs = {'class': 'c-result result', 'srcid': 'www_normal'}
+    myAttrs = {'class': 'c-result result', 'srcid': 'www_normal'}  # h5_mobile
     uinfo = soup.find_all(name='div', attrs=myAttrs)
 
     for result in uinfo:
