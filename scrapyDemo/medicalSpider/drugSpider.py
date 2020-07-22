@@ -59,6 +59,11 @@ def main():
         option = webdriver.ChromeOptions()
         option.add_argument(argument='headless')
         option.add_argument('--no-sandbox')
+        option.add_argument(
+            'Mozilla/5.0(Windows NT 10.0; WOW64) AppleWebKit/537.36(KHTML, like Gecko) Chrome/69.0.3497.81 Safari/537.36  Maxthon / 5.3.8.2000'
+            #'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Mobile Safari/537.36'
+         )
+        option.add_argument('blink-settings=imagesEnabled=false')  # 不加载图片, 提升速度
 
     for i in range(1, 2):  # 470 遍历469个一级目录网页
         try:
@@ -69,27 +74,31 @@ def main():
 
             #url_1 = 'http://app1.nmpa.gov.cn/datasearchcnda/face3/base.jsp?tableId=25&tableName=TABLE25&title=%B9%FA%B2%FA%D2%A9%C6%B7&bcId=152904713761213296322795806604'
             #url_1 = 'http://app1.nmpa.gov.cn/datasearchcnda/face3/dir.html?type=yp'
-            url_1 = 'http://www.nmpa.gov.cn/WS04/CL2042/'
+            #url_1 = 'http://www.nmpa.gov.cn/WS04/CL2042/'
+            url_1 = 'file:///C:/jingzl/1.html'
 
             browser.get(url_1)
-            print(url_1)
+            #print(url_1)
+
             s = browser.page_source.replace('amp;', '')
             print(s)
             m = re.findall(r'content.jsp\?tableId=32&tableName=TABLE32&tableView=国产药品商品名&Id=\d+', s, re.M)
 
             browser.close()
             print(m)
-            '''
-            for j in range(len(m)):
-                url_2 = 'http://app1.sfda.gov.cn/datasearchcnda/face3/' + m[j]
+
+            for j in range(1): # len(m)
+                url_2 = 'http://app1.nmpa.gov.cn/datasearchcnda/face3/' + m[j]
                 browser = webdriver.Chrome(chrome_options=option)
                 browser.get(url_2)
-                sql = "insert into t_gcypspm(c_bh, dt_insertTime, c_url, b_content,c_json, c_page) VALUES (REPLACE(UUID(),\"-\",\"\"), sysdate(), %s,%s,%s,%s)"
-                mysql_db.exetcute_sql(sql, [url_2, browser.page_source, parse2json(browser.page_source),
-                                            str(i) + '_' + str(j + 1)])
+                print(url_2)
+                print(browser.page_source)
+                #sql = "insert into t_gcypspm(c_bh, dt_insertTime, c_url, b_content,c_json, c_page) VALUES (REPLACE(UUID(),\"-\",\"\"), sysdate(), %s,%s,%s,%s)"
+                #mysql_db.exetcute_sql(sql, [url_2, browser.page_source, parse2json(browser.page_source),
+                #                            str(i) + '_' + str(j + 1)])
                 # pickle.loads(s) 可用该方法将乱码汉字转换
                 browser.close()
-            '''
+
         except Exception as e:
             print(e)
             time.sleep(5)
