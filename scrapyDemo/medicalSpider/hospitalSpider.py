@@ -43,6 +43,11 @@ def main():
 '''
 
 
+def xh():
+    url = 'http://www.whuh.com/searchmz/indexcopy.html'
+
+
+
 
 def main():
     option = None
@@ -120,11 +125,6 @@ def main():
                     print(item3[1].text)
                     print(item3[2].text)
                     print(item3[3].text)
-
-
-
-
-
 
 
 
