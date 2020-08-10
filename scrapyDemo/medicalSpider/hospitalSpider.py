@@ -43,28 +43,23 @@ def main():
 '''
 
 
-
-def whuh():
-    # 武汉协和医院
+def whuh_doctor():
     # 专家信息：http://www.whuh.com/doctorss/search.html（已包含知名专家信息）
     # 知名专家：http://www.whuh.com/doctorss/index/is_doc1/1.html
-    # 门诊安排：http://www.whuh.com/help/menzheng.html
-
-    url = 'http://www.whuh.com/doctorss/search.html'
-
     option = None
     option = webdriver.ChromeOptions()
     option.add_argument(argument='headless')
     option.add_argument('--no-sandbox')
 
     try:
+        # 获取医生信息
+        url = 'http://www.whuh.com/doctorss/search.html'
         browser = webdriver.Chrome(chrome_options=option)
         browser.get(url)
-        s = browser.page_source.replace('amp;','')
+        s = browser.page_source.replace('amp;', '')
         # print(s)
-        #m = browser.find_elements_by_class_name('ks_list') # y_class_name('ks_list mt10')
-        #print(len(m))
-        #print(m[0])
+        # print(len(m))
+        # print(m[0])
         # http://www.whuh.com/doctorss/index/sections_id/4.html
         m = re.findall(r"http://www.whuh.com/doctorss/index/sections_id/[0-9]*.html", s, re.M)
         print(len(m))
@@ -72,18 +67,22 @@ def whuh():
         for i in range(len(m)):
             browser2 = webdriver.Chrome(chrome_options=option)
             browser2.get(m[i])
-            s2 = browser2.page_source.replace('amp;','')
+            s2 = browser2.page_source.replace('amp;', '')
             m2 = re.findall(r"/doctorss/view/[0-9]*.html", s2, re.M)
-            print(len(m2))
-            print(m2[0])
             docturl_list = list(set(m2))
-            print(len(docturl_list))
-            print(docturl_list[0])
+            # print(len(docturl_list))
+            # print(docturl_list[0])
+            # http://www.whuh.com/doctorss/view/127.html
+            for j in range(len(docturl_list)):
+                detail_url = "http://www.whuh.com" + docturl_list[j]
+                browser3 = webdriver.Chrome(chrome_options=option)
+                browser3.get(detail_url)
+                s3 = browser3.page_source.replace('amp;', '')
 
+                browser3.close()
 
             browser2.close()
             break
-
 
         browser.close()
 
@@ -93,9 +92,17 @@ def whuh():
 
 
 
+def whuh_doctor_schedule(doctdate):
+    # 门诊安排：http://www.whuh.com/help/menzheng.html
+    print(doctdate)
 
 
 
+def whuh(hasdoctor， doctdate):
+    # 武汉协和医院
+    if hasdoctor:
+        whuh_doctor()
+    whuh_doctor_schedule(doctdate)
 
 
 def main():
@@ -261,6 +268,10 @@ if __name__ == '__main__':
     #doctimg = re.findall('plmnhytf12f3', s, re.M)
     #print(doctimg)
 
-    whuh()
+    # 通过配置文件获取相关参数：
+    # 是否爬取医生信息、排班的日期
+    hasdoctor = True
+    doctdate = "20200810"
+    whuh(hasdoctor， doctdate)
 
     #main()
