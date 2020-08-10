@@ -43,8 +43,57 @@ def main():
 '''
 
 
-def xh():
-    url = 'http://www.whuh.com/searchmz/indexcopy.html'
+
+def whuh():
+    # 武汉协和医院
+    # 专家信息：http://www.whuh.com/doctorss/search.html（已包含知名专家信息）
+    # 知名专家：http://www.whuh.com/doctorss/index/is_doc1/1.html
+    # 门诊安排：http://www.whuh.com/help/menzheng.html
+
+    url = 'http://www.whuh.com/doctorss/search.html'
+
+    option = None
+    option = webdriver.ChromeOptions()
+    option.add_argument(argument='headless')
+    option.add_argument('--no-sandbox')
+
+    try:
+        browser = webdriver.Chrome(chrome_options=option)
+        browser.get(url)
+        s = browser.page_source.replace('amp;','')
+        # print(s)
+        #m = browser.find_elements_by_class_name('ks_list') # y_class_name('ks_list mt10')
+        #print(len(m))
+        #print(m[0])
+        # http://www.whuh.com/doctorss/index/sections_id/4.html
+        m = re.findall(r"http://www.whuh.com/doctorss/index/sections_id/[0-9]*.html", s, re.M)
+        print(len(m))
+        print(m[0])
+        for i in range(len(m)):
+            browser2 = webdriver.Chrome(chrome_options=option)
+            browser2.get(m[i])
+            s2 = browser2.page_source.replace('amp;','')
+            m2 = re.findall(r"/doctorss/view/[0-9]*.html", s2, re.M)
+            print(len(m2))
+            print(m2[0])
+            docturl_list = list(set(m2))
+            print(len(docturl_list))
+            print(docturl_list[0])
+
+
+            browser2.close()
+            break
+
+
+        browser.close()
+
+    except Exception as e:
+        print(e)
+        time.sleep(5)
+
+
+
+
 
 
 
@@ -212,5 +261,6 @@ if __name__ == '__main__':
     #doctimg = re.findall('plmnhytf12f3', s, re.M)
     #print(doctimg)
 
+    whuh()
 
-    main()
+    #main()
