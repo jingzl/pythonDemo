@@ -1,9 +1,9 @@
 [db]
 db_driver = pymysql
-db_ip = 39.106.102.255
-db_port = 9001
-db_user = root
-db_password = mysql.1q2
+db_ip = xx.xx.xx.xx
+db_port = xx
+db_user = xx
+db_password = xx
 db_name = webdriverdb
 db_encoding = utf8
 
