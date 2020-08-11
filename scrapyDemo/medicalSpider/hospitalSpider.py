@@ -7,21 +7,13 @@ __author__ = 'jingzl'
 __version__ = '1.0'
 
 
-import requests
-import re
-from bs4 import BeautifulSoup
-import bs4
-
-import urllib
-import urllib.request
-import urllib.parse
-
-
 import re
 from selenium import webdriver
 from utils import *
 import json
 import time
+import pandas as pd
+import numpy as np
 
 
 '''
@@ -62,8 +54,7 @@ def whuh_doctor():
         # print(m[0])
         # http://www.whuh.com/doctorss/index/sections_id/4.html
         m = re.findall(r"http://www.whuh.com/doctorss/index/sections_id/[0-9]*.html", s, re.M)
-        print(len(m))
-        print(m[0])
+        a = []
         for i in range(len(m)):
             browser2 = webdriver.Chrome(chrome_options=option)
             browser2.get(m[i])
@@ -77,7 +68,31 @@ def whuh_doctor():
                 detail_url = "http://www.whuh.com" + docturl_list[j]
                 browser3 = webdriver.Chrome(chrome_options=option)
                 browser3.get(detail_url)
-                s3 = browser3.page_source.replace('amp;', '')
+                #s3 = browser3.page_source.replace('amp;', '')
+                # 姓名
+                item = browser3.find_element_by_class_name('zj_b1')
+                doctname = item.text
+                print(doctname)
+
+                item = browser3.find_element_by_class_name('zj_nr')
+                doctinfo = item.text
+                print(doctinfo)
+
+                item = browser3.find_element_by_class_name('nr3')
+                doctdesc = item.text
+                print(doctdesc)
+
+                item = browser3.find_element_by_class_name('FL')
+                #doctimg = item.
+
+                break
+
+
+
+                #ts_code = row[0]
+                #symbol = row[1]
+                #name = row[2]
+                #a.append([ts_code, symbol, name])
 
                 browser3.close()
 
@@ -85,6 +100,10 @@ def whuh_doctor():
             break
 
         browser.close()
+
+        #df = pd.DataFrame(a, columns=['ts_code', 'symbol', 'name'], index=np.arange(len(a)))
+        # 医生信息写入csv文件
+
 
     except Exception as e:
         print(e)
@@ -98,7 +117,7 @@ def whuh_doctor_schedule(doctdate):
 
 
 
-def whuh(hasdoctor， doctdate):
+def whuh(hasdoctor, doctdate):
     # 武汉协和医院
     if hasdoctor:
         whuh_doctor()
@@ -272,6 +291,6 @@ if __name__ == '__main__':
     # 是否爬取医生信息、排班的日期
     hasdoctor = True
     doctdate = "20200810"
-    whuh(hasdoctor， doctdate)
+    whuh(hasdoctor, doctdate)
 
     #main()
