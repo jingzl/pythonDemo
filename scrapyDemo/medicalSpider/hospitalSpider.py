@@ -73,17 +73,23 @@ def whuh_doctor():
                 item = browser3.find_element_by_class_name('zj_b1')
                 doctname = item.text
                 print(doctname)
-
+                # 所在科室  职称  专业专长
                 item = browser3.find_element_by_class_name('zj_nr')
                 doctinfo = item.text
-                print(doctinfo)
-
+                doctinfo_ary = doctinfo.split('\n')
+                doctinfo_ks = doctinfo_ary[0].split('：')[-1]
+                doctinfo_zc = doctinfo_ary[1].split('：')[-1]
+                doctinfo_zy = doctinfo_ary[2].split('：')[-1]
+                print(doctinfo_ks, doctinfo_zc, doctinfo_zy)
+                # 个人简介
                 item = browser3.find_element_by_class_name('nr3')
                 doctdesc = item.text
                 print(doctdesc)
-
-                item = browser3.find_element_by_class_name('FL')
-                #doctimg = item.
+                # 头像
+                item = browser3.find_element_by_css_selector('.x.pt10')
+                item_img = item.find_element_by_tag_name('img')
+                doctimg = item_img.get_attribute('src')
+                print(doctimg)
 
                 break
 
