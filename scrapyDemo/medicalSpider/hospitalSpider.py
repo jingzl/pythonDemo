@@ -12,6 +12,7 @@ from selenium import webdriver
 from utils import *
 import json
 import time
+import datetime
 import pandas as pd
 import numpy as np
 
@@ -44,27 +45,45 @@ def whuh_doctor():
     option.add_argument('--no-sandbox')
 
     try:
+        print("开始处理[whuh-doctor]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(50, '-'))
+        start = time.perf_counter()
+
         # 获取医生信息
         url = 'http://www.whuh.com/doctorss/search.html'
         browser = webdriver.Chrome(chrome_options=option)
         browser.get(url)
         s = browser.page_source.replace('amp;', '')
-        # print(s)
-        # print(len(m))
-        # print(m[0])
         # http://www.whuh.com/doctorss/index/sections_id/4.html
         m = re.findall(r"http://www.whuh.com/doctorss/index/sections_id/[0-9]*.html", s, re.M)
-        a = []
-        for i in range(len(m)):
+        dl = []
+        print("共计{0}个分类页面".format(len(m)))
+        for i in range(2): # len(m)
+            print("--第{0}个分类:{1}".format(i, m[i]))
             browser2 = webdriver.Chrome(chrome_options=option)
             browser2.get(m[i])
             s2 = browser2.page_source.replace('amp;', '')
             m2 = re.findall(r"/doctorss/view/[0-9]*.html", s2, re.M)
             docturl_list = list(set(m2))
-            # print(len(docturl_list))
-            # print(docturl_list[0])
+
+            # 处理分页信息
+            yiipager_item = browser2.find_element_by_class_name('yiiPager')
+            page_items = yiipager_item.find_elements_by_class_name('page')
+            for p in range(1, len(page_items)): # 从2页开始
+                a_item = page_items[p].find_element_by_tag_name('a')
+                page_url = a_item.get_attribute('href')
+                if len(page_url) <= 0:
+                    continue
+                browser_page = webdriver.Chrome(chrome_options=option)
+                browser_page.get(page_url)
+                s_page = browser_page.page_source.replace('amp;', '')
+                p_docturl = re.findall(r"/doctorss/view/[0-9]*.html", s_page, re.M)
+                docturl_list += list(set(p_docturl))
+                browser_page.close()
+
             # http://www.whuh.com/doctorss/view/127.html
-            for j in range(len(docturl_list)):
+            print("--该分类下共计{0}个医生".format(len(docturl_list)))
+            for j in range(len(docturl_list)): #
+                print("----第{0}个医生：{1}".format(j, docturl_list[j]))
                 detail_url = "http://www.whuh.com" + docturl_list[j]
                 browser3 = webdriver.Chrome(chrome_options=option)
                 browser3.get(detail_url)
@@ -72,7 +91,7 @@ def whuh_doctor():
                 # 姓名
                 item = browser3.find_element_by_class_name('zj_b1')
                 doctname = item.text
-                print(doctname)
+                #print(doctname)
                 # 所在科室  职称  专业专长
                 item = browser3.find_element_by_class_name('zj_nr')
                 doctinfo = item.text
@@ -80,47 +99,44 @@ def whuh_doctor():
                 doctinfo_ks = doctinfo_ary[0].split('：')[-1]
                 doctinfo_zc = doctinfo_ary[1].split('：')[-1]
                 doctinfo_zy = doctinfo_ary[2].split('：')[-1]
-                print(doctinfo_ks, doctinfo_zc, doctinfo_zy)
+                #print(doctinfo_ks, doctinfo_zc, doctinfo_zy)
                 # 个人简介
                 item = browser3.find_element_by_class_name('nr3')
                 doctdesc = item.text
-                print(doctdesc)
+                #print(doctdesc)
                 # 头像
                 item = browser3.find_element_by_css_selector('.x.pt10')
                 item_img = item.find_element_by_tag_name('img')
-                doctimg = item_img.get_attribute('src')
-                print(doctimg)
+                doctimgurl = item_img.get_attribute('src')
+                #print(doctimgurl)
 
-                break
-
-
-
-                #ts_code = row[0]
-                #symbol = row[1]
-                #name = row[2]
-                #a.append([ts_code, symbol, name])
-
+                # 姓名 性别 科室 职称 头像地址 简介 擅长说明
+                dl.append([doctname, '', doctinfo_ks, doctinfo_zc, doctinfo_zy, doctimgurl, doctdesc])
                 browser3.close()
-
             browser2.close()
-            break
-
+            time.sleep(0.1)
+        dur = time.perf_counter() - start
+        print("总计爬取用时：{:.2f}s".format(dur))
         browser.close()
 
-        #df = pd.DataFrame(a, columns=['ts_code', 'symbol', 'name'], index=np.arange(len(a)))
+        df = pd.DataFrame(dl, columns=['姓名', '性别', '科室', '职称', '头像地址', '简介', '擅长说明'], index=np.arange(len(dl)))
         # 医生信息写入csv文件
-
+        df.to_csv('./output/doctor_whuh.csv', index=False, sep='|')
+        print("处理完毕[whuh-doctor]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(50, '-'))
 
     except Exception as e:
         print(e)
         time.sleep(5)
 
 
-
 def whuh_doctor_schedule(doctdate):
     # 门诊安排：http://www.whuh.com/help/menzheng.html
+    print("开始处理[whuh-doctor-schedule]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(50, '-'))
+    start = time.perf_counter()
+
     print(doctdate)
 
+    print("处理完毕[whuh-doctor-schedule]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(50, '-'))
 
 
 def whuh(hasdoctor, doctdate):
@@ -128,6 +144,29 @@ def whuh(hasdoctor, doctdate):
     if hasdoctor:
         whuh_doctor()
     whuh_doctor_schedule(doctdate)
+
+
+def tjh_doctor():
+    # 专家信息
+
+    pass
+
+
+def tjh_doctor_schedule(doctdate):
+    # 门诊安排
+    print("开始处理[tjh-doctor-schedule]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(50, '-'))
+    start = time.perf_counter()
+
+    print(doctdate)
+
+    print("处理完毕[tjh-doctor-schedule]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(50, '-'))
+
+
+def tjh(hasdoctor, doctdate):
+    # 同济医院
+    if hasdoctor:
+        tjh_doctor()
+    tjh_doctor_schedule(doctdate)
 
 
 def main():
@@ -297,6 +336,10 @@ if __name__ == '__main__':
     # 是否爬取医生信息、排班的日期
     hasdoctor = True
     doctdate = "20200810"
-    whuh(hasdoctor, doctdate)
+    # 协和医院
+    #whuh(hasdoctor, doctdate)
+    # 同济医院
+    tjh(hasdoctor, doctdate)
 
-    #main()
+    # end
+    print("-----all end-----")
