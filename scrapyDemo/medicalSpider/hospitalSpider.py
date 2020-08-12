@@ -45,7 +45,7 @@ def whuh_doctor():
     option.add_argument('--no-sandbox')
 
     try:
-        print("开始处理[whuh-doctor]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(50, '-'))
+        print("开始处理[whuh-doctor]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
         start = time.perf_counter()
 
         # 获取医生信息
@@ -122,7 +122,7 @@ def whuh_doctor():
         df = pd.DataFrame(dl, columns=['姓名', '性别', '科室', '职称', '头像地址', '简介', '擅长说明'], index=np.arange(len(dl)))
         # 医生信息写入csv文件
         df.to_csv('./output/doctor_whuh.csv', index=False, sep='|')
-        print("处理完毕[whuh-doctor]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(50, '-'))
+        print("处理完毕[whuh-doctor]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
 
     except Exception as e:
         print(e)
@@ -131,12 +131,12 @@ def whuh_doctor():
 
 def whuh_doctor_schedule(doctdate):
     # 门诊安排：http://www.whuh.com/help/menzheng.html
-    print("开始处理[whuh-doctor-schedule]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(50, '-'))
+    print("开始处理[whuh-doctor-schedule]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
     start = time.perf_counter()
 
     print(doctdate)
 
-    print("处理完毕[whuh-doctor-schedule]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(50, '-'))
+    print("处理完毕[whuh-doctor-schedule]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
 
 
 def whuh(hasdoctor, doctdate):
@@ -148,18 +148,49 @@ def whuh(hasdoctor, doctdate):
 
 def tjh_doctor():
     # 专家信息
+    # 医疗科室 https://www.tjh.com.cn/Section/Index.aspx#title
+    # 医技科室 https://www.tjh.com.cn/Section/Technology.aspx#title
+    # 医疗中心 https://www.tjh.com.cn/Section/Center.aspx#title
+    option = None
+    option = webdriver.ChromeOptions()
+    option.add_argument(argument='headless')
+    option.add_argument('--no-sandbox')
+    try:
+        print("开始处理[tjh-doctor]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
+        start = time.perf_counter()
+        sectionidx_url_list = ['https://www.tjh.com.cn/Section/Index.aspx#title',
+                               'https://www.tjh.com.cn/Section/Technology.aspx#title',
+                               'https://www.tjh.com.cn/Section/Center.aspx#title']
+        section_url_list = []
+        for i in range(1): # len(sectionidx_url_list)
+            browser = webdriver.Chrome(chrome_options=option)
+            browser.get(sectionidx_url_list[i])
+            s = browser.page_source.replace('amp;', '')
+            # /Section/IndexDoctorIntro.aspx?title=%e5%bf%83%e8%a1%80%e7%ae%a1%e5%86%85%e7%a7%91
+            #m = re.findall(r"/Section/IndexDoctorIntro.aspx\?title=[%a-zA-Z0-9]*", s, re.M)
+            m = re.findall(r"/Section/IndexDoctorIntro.aspx\?title=", s, re.M)
+            section_url_list += m
+            browser.close()
 
-    pass
+        for j in range(len(section_url_list)):
+            print(section_url_list[j])
+
+
+        print("处理完毕[tjh-doctor]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
+
+    except Exception as e:
+        print(e)
+        time.sleep(5)
 
 
 def tjh_doctor_schedule(doctdate):
     # 门诊安排
-    print("开始处理[tjh-doctor-schedule]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(50, '-'))
+    print("开始处理[tjh-doctor-schedule]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
     start = time.perf_counter()
 
     print(doctdate)
 
-    print("处理完毕[tjh-doctor-schedule]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(50, '-'))
+    print("处理完毕[tjh-doctor-schedule]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
 
 
 def tjh(hasdoctor, doctdate):
@@ -323,7 +354,6 @@ if __name__ == '__main__':
     #doctid = re.findall("\d+", s, re.M)
     #print(doctid[0])
 
-
     #s = '<p class="personInfo-title">吴杰</p>'
     #doctname = re.findall('[\u4E00-\u9FA5]+', s, re.M)
     #print(doctname[0])
@@ -341,5 +371,9 @@ if __name__ == '__main__':
     # 同济医院
     tjh(hasdoctor, doctdate)
 
+    #s = '/Section/IndexDoctorIntro.aspx?title=%e5%bf%83%e8%a1%80%e7%ae%a1%e5%86%85%e7%a7%91'
+    #m = re.findall(r"/Section/IndexDoctorIntro.aspx?title=", s, re.M)
+
+
     # end
-    print("-----all end-----")
+    print("all end".center(100, '-'))
