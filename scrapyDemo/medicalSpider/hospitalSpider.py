@@ -320,67 +320,11 @@ def main():
                     print(item3[3].text)
 
 
-
-
-
-                '''
-                sql = "insert into t_gcypspm(c_bh, dt_insertTime, c_url, b_content,c_json, c_page) VALUES (REPLACE(UUID(),\"-\",\"\"), sysdate(), %s,%s,%s,%s)"
-                mysql_db.exetcute_sql(sql, [url_2, browser.page_source, parse2json(browser.page_source),
-                                            str(i) + '_' + str(j + 1)])
-                # pickle.loads(s) 可用该方法将乱码汉字转换
-                '''
-
-
                 browser.close()
 
         except Exception as e:
             print(e)
             time.sleep(5)
-
-
-def parse2json(html):
-    '''
-    批准文号        pzwh
-    批准文号备注    pzwhbz
-    产品名称        cpmc
-    英文名称        ywmc
-    商品名          spm
-    生产单位        scdw
-    规格            gg
-    剂型            jx
-    产品类别        cplb
-    批准日期        pzrq
-    原批准文号      ypzwh
-    药品本位码      ypbwm
-    药品本位码备注  ypbwmbz
-    生产地址        scdz
-    '''
-    # 初始化，避免取不到的情况下为空值
-    result_json = dict()
-    # 批准文号
-    reg_dict = dict()
-
-    reg_dict['pzwh'] = r"批准文号</td>\s*<td.*>(.*)</td></tr>"
-    reg_dict['pzwhbz'] = r"批准文号备注</td>\s*<td.*>(.*)</td></tr>"
-    reg_dict['cpmc'] = r"产品名称</td>\s*<td.*>(.*)</td></tr>"
-    reg_dict['ywmc'] = r"英文名称</td>\s*<td.*>(.*)</td></tr>"
-    reg_dict['spm'] = r"商品名</td>\s*<td.*>(.*)</td></tr>"
-    reg_dict['scdw'] = r"生产单位</td>\s*<td.*><a.*>(.*)</a></td></tr>"
-    reg_dict['gg'] = r"规格</td>\s*<td.*>(.*)</td></tr>"
-    reg_dict['jx'] = r"剂型</td>\s*<td.*>(.*)</td></tr>"
-    reg_dict['cplb'] = r"产品类别</td>\s*<td.*>(.*)</td></tr>"
-    reg_dict['pzrq'] = r"批准日期</td>\s*<td.*>(.*)</td></tr>"
-    reg_dict['ypzwh'] = r"原批准文号</td>\s*<td.*>(.*)</td></tr>"
-    reg_dict['ypbwm'] = r"药品本位码</td>\s*<td.*>(.*)</td></tr>"
-    reg_dict['ypbwmbz'] = r"药品本位码备注</td>\s*<td.*>(.*)</td></tr>"
-    reg_dict['scdz'] = r"生产地址</td>\s*<td.*>(.*)</td></tr>"
-    for i, v in reg_dict.items():
-        reg_search = re.search(v, html)
-        if reg_search is not None:
-            result_json[i] = reg_search.group(1)
-        else:
-            result_json[i] = ''
-    return json.dumps(result_json, ensure_ascii=False)
 
 
 
