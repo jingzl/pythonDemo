@@ -15,25 +15,8 @@ import time
 import datetime
 import pandas as pd
 import numpy as np
+import urllib.parse
 
-
-'''
-def main():
-    print("hello")
-    url = "https://www.tjh.com.cn/Menzhen/Arrange1.aspx?week=0&yuanqu=0&haobie=0&riqi=20200718&ksdaima=#title"
-    url = "https://www.tjh.com.cn/Menzhen/Arrange1.aspx?week=1&yuanqu=0&haobie=0&riqi=20200719&ksdaima=#title"
-
-    url = "https://www.tjh.com.cn/Menzhen/ZuanJia_details.aspx?id=302001&mzDaima=#title"
-    url = "https://www.tjh.com.cn/Menzhen/ZuanJia_details.aspx?id=851001&mzDaima=#title"
-
-
-    url = "http://www.whuh.com/doctorss/search.html"
-    url = "http://www.whuh.com/doctorss/index/is_doc1/1.html"
-    url = "http://www.whuh.com/help/menzheng.html"
-
-
-    return
-'''
 
 
 def whuh_doctor():
@@ -56,9 +39,9 @@ def whuh_doctor():
         # http://www.whuh.com/doctorss/index/sections_id/4.html
         m = re.findall(r"http://www.whuh.com/doctorss/index/sections_id/[0-9]*.html", s, re.M)
         dl = []
-        print("共计{0}个分类页面".format(len(m)))
+        print("共计{0}个科室页面".format(len(m)))
         for i in range(2): # len(m)
-            print("--第{0}个分类:{1}".format(i, m[i]))
+            print("--第{0}个科室:{1}".format(i, m[i]))
             browser2 = webdriver.Chrome(chrome_options=option)
             browser2.get(m[i])
             s2 = browser2.page_source.replace('amp;', '')
@@ -81,7 +64,7 @@ def whuh_doctor():
                 browser_page.close()
 
             # http://www.whuh.com/doctorss/view/127.html
-            print("--该分类下共计{0}个医生".format(len(docturl_list)))
+            print("--该科室下共计{0}个医生".format(len(docturl_list)))
             for j in range(len(docturl_list)): #
                 print("----第{0}个医生：{1}".format(j, docturl_list[j]))
                 detail_url = "http://www.whuh.com" + docturl_list[j]
@@ -110,16 +93,16 @@ def whuh_doctor():
                 doctimgurl = item_img.get_attribute('src')
                 #print(doctimgurl)
 
-                # 姓名 性别 科室 职称 头像地址 简介 擅长说明
-                dl.append([doctname, '', doctinfo_ks, doctinfo_zc, doctinfo_zy, doctimgurl, doctdesc])
+                # 姓名 性别 科室 职称 头像地址 擅长 简介
+                dl.append([doctname, '', doctinfo_ks, doctinfo_zc, doctimgurl, doctinfo_zy, doctdesc])
                 browser3.close()
             browser2.close()
             time.sleep(0.1)
+        browser.close()
         dur = time.perf_counter() - start
         print("总计爬取用时：{:.2f}s".format(dur))
-        browser.close()
 
-        df = pd.DataFrame(dl, columns=['姓名', '性别', '科室', '职称', '头像地址', '简介', '擅长说明'], index=np.arange(len(dl)))
+        df = pd.DataFrame(dl, columns=['姓名', '性别', '科室', '职称', '头像地址', '擅长', '简介'], index=np.arange(len(dl)))
         # 医生信息写入csv文件
         df.to_csv('./output/doctor_whuh.csv', index=False, sep='|')
         print("处理完毕[whuh-doctor]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
@@ -162,20 +145,79 @@ def tjh_doctor():
                                'https://www.tjh.com.cn/Section/Technology.aspx#title',
                                'https://www.tjh.com.cn/Section/Center.aspx#title']
         section_url_list = []
-        for i in range(1): # len(sectionidx_url_list)
+        for i in range(len(sectionidx_url_list)):
             browser = webdriver.Chrome(chrome_options=option)
             browser.get(sectionidx_url_list[i])
             s = browser.page_source.replace('amp;', '')
             # /Section/IndexDoctorIntro.aspx?title=%e5%bf%83%e8%a1%80%e7%ae%a1%e5%86%85%e7%a7%91
-            #m = re.findall(r"/Section/IndexDoctorIntro.aspx\?title=[%a-zA-Z0-9]*", s, re.M)
-            m = re.findall(r"/Section/IndexDoctorIntro.aspx\?title=", s, re.M)
+            m = re.findall(r"/Section/IndexDoctorIntro.aspx\?title=[%a-zA-Z0-9]+", s, re.M)
             section_url_list += m
             browser.close()
+        # 整理
+        tmp_url_list = []
+        for surl in section_url_list:
+            surl = surl.upper()
+            if surl not in tmp_url_list:
+                tmp_url_list.append(surl)
+        section_url_list = tmp_url_list
+        dl = []
+        print("共计{0}个科室页面".format(len(section_url_list)))
+        for j in range(1): # len(section_url_list)
+            print("--第{0}个科室:{1}".format(j, section_url_list[j]))
+            browser2 = webdriver.Chrome(chrome_options=option)
+            browser2.get('https://www.tjh.com.cn'+section_url_list[j])
+            s2 = browser2.page_source.replace('amp;', '')
+            m2 = re.findall(r"IndexDoctorIntroInfo.aspx\?id=[0-9]+", s2, re.M)
+            docturl_list = m2
+            browser2.close()
+            # 科室名称
+            doct_ks = urllib.parse.unquote(section_url_list[j].split('=')[-1])
 
-        for j in range(len(section_url_list)):
-            print(section_url_list[j])
+            print("--该科室下共计{0}个医生".format(len(docturl_list)))
+            for k in range(len(docturl_list)):
+                print("----第{0}个医生：{1}".format(k, docturl_list[k]))
+                detail_url = "https://www.tjh.com.cn/Section/" + docturl_list[k]
+                browser3 = webdriver.Chrome(chrome_options=option)
+                browser3.get(detail_url)
 
+                # 姓名
+                item = browser3.find_element_by_class_name('personInfo-title')
+                doct_name = item.text
 
+                # 照片 personIntro-header
+                item = browser3.find_element_by_class_name('personIntro-header')
+                item_img = item.find_element_by_tag_name('img')
+                doct_imgurl = item_img.get_attribute('src')
+
+                # 性别 职称
+                item = browser3.find_element_by_class_name('personIntro-detail')
+                item2 = item.find_elements_by_tag_name('p')
+                doct_gender = item2[0].find_elements_by_tag_name('span')[0].text
+                doct_zc = item2[2].text.split('：')[-1]
+
+                # 擅长
+                item = browser3.find_element_by_class_name('personAward')
+                item2 = item.find_element_by_class_name('text')
+                doct_zy = item2.text
+
+                # 简介
+                doct_desc = ''
+                item = browser3.find_element_by_class_name('personNote')
+                item2 = item.find_elements_by_tag_name('p')
+                for n in range(1,len(item2)-1):
+                    doct_desc += item2[n].text
+
+                # 姓名 性别 科室 职称 头像地址 擅长 简介
+                dl.append([doct_name, doct_gender, doct_ks, doct_zc, doct_imgurl, doct_zy,  doct_desc])
+                browser3.close()
+            time.sleep(0.1)
+
+        dur = time.perf_counter() - start
+        print("总计爬取用时：{:.2f}s".format(dur))
+
+        df = pd.DataFrame(dl, columns=['姓名', '性别', '科室', '职称', '头像地址', '擅长', '简介'], index=np.arange(len(dl)))
+        # 医生信息写入csv文件
+        df.to_csv('./output/doctor_tjh.csv', index=False, sep='|')
         print("处理完毕[tjh-doctor]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
 
     except Exception as e:
@@ -370,9 +412,6 @@ if __name__ == '__main__':
     #whuh(hasdoctor, doctdate)
     # 同济医院
     tjh(hasdoctor, doctdate)
-
-    #s = '/Section/IndexDoctorIntro.aspx?title=%e5%bf%83%e8%a1%80%e7%ae%a1%e5%86%85%e7%a7%91'
-    #m = re.findall(r"/Section/IndexDoctorIntro.aspx?title=", s, re.M)
 
 
     # end
