@@ -6,17 +6,72 @@ Created on Thu Jul 16 2020
 __author__ = 'jingzl'
 __version__ = '1.0'
 
-import requests
 import re
-from bs4 import BeautifulSoup
-import bs4
+from selenium import webdriver
+import time
+import datetime
+import pandas as pd
+import numpy as np
 
-import urllib
-import urllib.request
-import urllib.parse
-import random
-#from fake_useragent import UserAgent
-#ua = UserAgent()
+
+# 目标站
+CONST_TARGETSITE = ['youlai.cn','mfk.com','ydf.com','baikemy.com','myzx.cn','sytown.cn','yxys.com','miaoshou.com',
+                    'pule.com','vodjk.com','fh21.com.cn','bohe.cn']
+
+
+def baiduQuery(keyword, targetsite):
+    option = None
+    option = webdriver.ChromeOptions()
+    option.add_argument(argument='headless')
+    option.add_argument('--no-sandbox')
+
+    try:
+        url = 'http://m.baidu.com/s?word=site:'+targetsite+'+'+keyword
+        browser = webdriver.Chrome(chrome_options=option)
+        browser.get(url)
+        s = browser.page_source.replace('amp;', '')
+        dl = []
+        item_results = browser.find_elements_by_css_selector('.c-result.result')
+        for i in range(len(item_results)):
+            item_result = item_results[i]
+            audio_tag = item_result.find_elements_by_css_selector('.c-gap-left-middle.c-color-link.c-font-normal')
+            if (len(audio_tag) <= 0):
+                continue
+            # 标题
+            item = item_result.find_element_by_class_name('c-title-text')
+            if not item:
+                continue
+            print(item.text)
+            # 内容
+            #item = item_result.find_element_by_class_name('')
+
+
+
+
+
+    except Exception as e:
+        print(e)
+        time.sleep(5)
+
+
+def query(keyword_list):
+    print("开始处理[query]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
+    print("共计[{0}]个目标站，[{1}]个关键字".format(len(CONST_TARGETSITE), len(keyword_list)))
+
+    start = time.perf_counter()
+    for i in range(1): # len(keyword_list)
+        keyword = keyword_list[i].strip()
+        if (len(keyword) <= 0):
+            continue
+        print("--keyword-{0}".format(keyword))
+        for j in range(1): # len(CONST_TARGETSITE)
+            targetsite = CONST_TARGETSITE[j]
+            print("----site-{0}".format(targetsite))
+            baiduQuery(keyword,targetsite)
+
+    dur = time.perf_counter() - start
+    print("总计爬取用时：{:.2f}s".format(dur))
+    print("处理完毕[query]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
 
 
 def getHTMLText(url):
@@ -131,5 +186,14 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # 解析爬虫配置
+    keyword_list = []
+    with open('./conf/keyword.txt', 'r', encoding='UTF-8') as f:
+        keyword_list = f.read().splitlines()
+    query(keyword_list)
+
+    # end
+    print("all end".center(100, '-'))
+
+
 
