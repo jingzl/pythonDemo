@@ -9,14 +9,11 @@ __version__ = '1.0'
 
 import re
 from selenium import webdriver
-from utils import *
-import json
 import time
 import datetime
 import pandas as pd
 import numpy as np
 import urllib.parse
-
 
 
 def whuh_doctor():
@@ -104,7 +101,7 @@ def whuh_doctor():
 
         df = pd.DataFrame(dl, columns=['姓名', '性别', '科室', '职称', '头像地址', '擅长', '简介'], index=np.arange(len(dl)))
         # 医生信息写入csv文件
-        df.to_csv('./output/doctor_whuh.csv', index=False, sep='|')
+        df.to_excel('./output/doctor_whuh.xlsx', index=False)
         print("处理完毕[whuh-doctor]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
 
     except Exception as e:
@@ -217,7 +214,7 @@ def tjh_doctor():
 
         df = pd.DataFrame(dl, columns=['姓名', '性别', '科室', '职称', '头像地址', '擅长', '简介'], index=np.arange(len(dl)))
         # 医生信息写入csv文件
-        df.to_csv('./output/doctor_tjh.csv', index=False, sep='|')
+        df.to_excel('./output/doctor_tjh.xlsx', index=False)
         print("处理完毕[tjh-doctor]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
 
     except Exception as e:
@@ -242,121 +239,15 @@ def tjh(hasdoctor, doctdate):
     tjh_doctor_schedule(doctdate)
 
 
-def main():
-    option = None
-    mysql_db = DataBase()
-    # 配置文件中开启是否无头，生产阶段关闭
-    if if_headless():
-        option = webdriver.ChromeOptions()
-        option.add_argument(argument='headless')
-        option.add_argument('--no-sandbox')
-
-    for i in range(1, 2):  #
-        try:
-            browser = webdriver.Chrome(chrome_options=option)
-
-            url_1 = 'https://www.tjh.com.cn/Menzhen/Arrange1.aspx?week=0&yuanqu=0&haobie=0&riqi=20200722&ksdaima=#title'
-
-            browser.get(url_1)
-            s = browser.page_source.replace('amp;', '')
-            #print(s)
-
-            #'<p style="cursor:pointer;" onclick="getUrl("王琳","902001")"><b>王琳</b></p>'
-
-            #print(s)
-            #m = re.findall(r'<p style="cursor:pointer;" onclick="getUrl("\s","\d")\s+', s, re.M)
-            m = re.findall(r"getUrl\('[\u4E00-\u9FA5]+','[0-9]*'\)", s, re.M)
-            #print(m[0])  # getUrl('吴杰','851001')
-
-            #m = browser.find_elements_by_class_name('table-list')
-            #m0 = m[0].find_element_by_tag_name('p').get_attribute('onclick')
-            #print(m0)
-            #print(m)
-
-            browser.close()
-
-            for j in range(1): # len(m)
-                print(m[0])
-                doctid = re.findall("\d+", m[0], re.M)
-
-                print(doctid[0])
-                # 需要判断医生ID是否存在，避免重复爬取
-
-                url_2 = 'https://www.tjh.com.cn/Menzhen/ZuanJia_details.aspx?id='+doctid[0]+'&mzDaima='
-                print(url_2)
-                browser = webdriver.Chrome(chrome_options=option)
-                browser.get(url_2)
-                #print(browser.page_source)
-
-
-                # 姓名、性别、职务、职称、头像、擅长、个人简介、排版信息
-                item = browser.find_element_by_class_name('personInfo-title')
-                doct_name = item.text
-                print(doct_name)
-
-                item = browser.find_element_by_class_name('personIntro-detail')
-                item2 = item.find_elements_by_tag_name('p')
-                print(item2[0].text)
-                print(item2[1].text)
-                print(item2[2].text)
-
-                item = browser.find_element_by_class_name('personAward')
-                item2 = item.find_element_by_class_name('text')
-                print(item2.text)
-
-                item = browser.find_element_by_class_name('personNote')
-                item2 = item.find_elements_by_tag_name('p')
-                #print(item2[0].text)
-                print(item2[1].text)
-                print(item2[2].text)
-
-                item = browser.find_element_by_class_name('personArrange')
-                item2 = item.find_elements_by_tag_name('tr')
-                for k in range(1,len(item2)):
-                    item3 = item2[k].find_elements_by_tag_name('td')
-                    print(item3[0].text)
-                    print(item3[1].text)
-                    print(item3[2].text)
-                    print(item3[3].text)
-
-
-                browser.close()
-
-        except Exception as e:
-            print(e)
-            time.sleep(5)
-
-
-
-
 if __name__ == '__main__':
-
-    # (\(^"[\u4E00-\u9FA5]+^",^"[0-9]*^"\))
-    #str = '<p style="cursor:pointer;" onclick="getUrl("王琳","902001")"><b>王琳</b></p>'
-    #m = re.findall(r'getUrl\("[\u4E00-\u9FA5]+","[0-9]*"\)', str, re.M)
-    #print(m[0])
-
-    #s = "getUrl('吴杰','851001')"
-    #doctid = re.findall("\d+", s, re.M)
-    #print(doctid[0])
-
-    #s = '<p class="personInfo-title">吴杰</p>'
-    #doctname = re.findall('[\u4E00-\u9FA5]+', s, re.M)
-    #print(doctname[0])
-
-    #s = '<img src="/plmnhytf12f3/1/专家照片/2018/100209  王琳.jpg">'
-    #doctimg = re.findall('plmnhytf12f3', s, re.M)
-    #print(doctimg)
-
     # 通过配置文件获取相关参数：
     # 是否爬取医生信息、排班的日期
     hasdoctor = True
     doctdate = "20200810"
     # 协和医院
-    #whuh(hasdoctor, doctdate)
+    whuh(hasdoctor, doctdate)
     # 同济医院
     tjh(hasdoctor, doctdate)
-
 
     # end
     print("all end".center(100, '-'))
