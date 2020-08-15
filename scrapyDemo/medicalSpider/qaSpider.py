@@ -59,6 +59,7 @@ def baiduQuery(keyword, targetsite):
     option = webdriver.ChromeOptions()
     option.add_argument(argument='headless')
     option.add_argument('--no-sandbox')
+    option.add_argument('start-maximized')
 
     try:
         url = 'http://m.baidu.com/s?word=site:'+targetsite+'+'+keyword
@@ -66,14 +67,21 @@ def baiduQuery(keyword, targetsite):
         browser.get(url)
         dl = []
         dl = pageQuery(keyword, targetsite, browser)
-        browser.close()
+        browser.quit()
+        browser2 = webdriver.Chrome(chrome_options=option)
         for i in range(1, CONST_NEXTPAGE):
             url2 = "http://m.baidu.com/s?pn={0}&word=site:{1}+{2}".format(i*10, targetsite, keyword)
-            browser2 = webdriver.Chrome(chrome_options=option)
             browser2.get(url2)
+            browser2.switch_to.window(browser2.current_window_handle)
             dl += pageQuery(keyword, targetsite, browser2)
-            browser2.close()
             time.sleep(1)
+        browser2.quit()
+        # 去重
+        tmp_list = []
+        for item in dl:
+            if item not in tmp_list:
+                tmp_list.append(item)
+        dl = tmp_list
 
         df = pd.DataFrame(dl, columns=['keyword', 'targetsite', '提问', '回答'], index=np.arange(len(dl)))
         # 医生信息写入excel文件
@@ -89,15 +97,15 @@ def query(keyword_list):
     print("共计[{0}]个目标站，[{1}]个关键字".format(len(CONST_TARGETSITE), len(keyword_list)))
 
     start = time.perf_counter()
-    for i in range(1): # len(keyword_list)
+    for i in range(2):  # len(keyword_list)
         keyword = keyword_list[i].strip()
         if (len(keyword) <= 0):
             continue
         print("--keyword-{0}".format(keyword))
-        for j in range(1): # len(CONST_TARGETSITE)
+        for j in range(1):  # len(CONST_TARGETSITE)
             targetsite = CONST_TARGETSITE[j]
             print("----site-{0}".format(targetsite))
-            baiduQuery(keyword,targetsite)
+            baiduQuery(keyword, targetsite)
 
     dur = time.perf_counter() - start
     print("总计爬取用时：{:.2f}s".format(dur))
