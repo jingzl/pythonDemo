@@ -23,6 +23,7 @@ def whuh_doctor():
     option = webdriver.ChromeOptions()
     option.add_argument(argument='headless')
     option.add_argument('--no-sandbox')
+    option.add_argument('start-maximized')
 
     try:
         print("开始处理[whuh-doctor]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
@@ -37,10 +38,11 @@ def whuh_doctor():
         m = re.findall(r"http://www.whuh.com/doctorss/index/sections_id/[0-9]*.html", s, re.M)
         dl = []
         print("共计{0}个科室页面".format(len(m)))
-        for i in range(2): # len(m)
+        browser2 = webdriver.Chrome(chrome_options=option)
+        for i in range(2):  # len(m)
             print("--第{0}个科室:{1}".format(i, m[i]))
-            browser2 = webdriver.Chrome(chrome_options=option)
             browser2.get(m[i])
+            browser2.switch_to.window(browser2.current_window_handle)
             s2 = browser2.page_source.replace('amp;', '')
             m2 = re.findall(r"/doctorss/view/[0-9]*.html", s2, re.M)
             docturl_list = list(set(m2))
@@ -48,25 +50,28 @@ def whuh_doctor():
             # 处理分页信息
             yiipager_item = browser2.find_element_by_class_name('yiiPager')
             page_items = yiipager_item.find_elements_by_class_name('page')
+            browser_page = webdriver.Chrome(chrome_options=option)
             for p in range(1, len(page_items)): # 从2页开始
                 a_item = page_items[p].find_element_by_tag_name('a')
                 page_url = a_item.get_attribute('href')
                 if len(page_url) <= 0:
                     continue
-                browser_page = webdriver.Chrome(chrome_options=option)
                 browser_page.get(page_url)
+                browser_page.switch_to.window(browser_page.current_window_handle)
                 s_page = browser_page.page_source.replace('amp;', '')
                 p_docturl = re.findall(r"/doctorss/view/[0-9]*.html", s_page, re.M)
                 docturl_list += list(set(p_docturl))
-                browser_page.close()
+                time.sleep(1)
+            browser_page.quit()
 
             # http://www.whuh.com/doctorss/view/127.html
             print("--该科室下共计{0}个医生".format(len(docturl_list)))
-            for j in range(len(docturl_list)): #
+            browser3 = webdriver.Chrome(chrome_options=option)
+            for j in range(len(docturl_list)):  #
                 print("----第{0}个医生：{1}".format(j, docturl_list[j]))
                 detail_url = "http://www.whuh.com" + docturl_list[j]
-                browser3 = webdriver.Chrome(chrome_options=option)
                 browser3.get(detail_url)
+                browser3.switch_to.window(browser3.current_window_handle)
                 #s3 = browser3.page_source.replace('amp;', '')
                 # 姓名
                 item = browser3.find_element_by_class_name('zj_b1')
@@ -92,10 +97,11 @@ def whuh_doctor():
 
                 # 姓名 性别 科室 职称 头像地址 擅长 简介
                 dl.append([doctname, '', doctinfo_ks, doctinfo_zc, doctimgurl, doctinfo_zy, doctdesc])
-                browser3.close()
-            browser2.close()
-            time.sleep(0.1)
-        browser.close()
+                time.sleep(1)
+            browser3.quit()
+            time.sleep(1)
+        browser2.quit()
+        browser.quit()
         dur = time.perf_counter() - start
         print("总计爬取用时：{:.2f}s".format(dur))
 
@@ -135,6 +141,7 @@ def tjh_doctor():
     option = webdriver.ChromeOptions()
     option.add_argument(argument='headless')
     option.add_argument('--no-sandbox')
+    option.add_argument('start-maximized')
     try:
         print("开始处理[tjh-doctor]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
         start = time.perf_counter()
@@ -142,14 +149,14 @@ def tjh_doctor():
                                'https://www.tjh.com.cn/Section/Technology.aspx#title',
                                'https://www.tjh.com.cn/Section/Center.aspx#title']
         section_url_list = []
+        browser = webdriver.Chrome(chrome_options=option)
         for i in range(len(sectionidx_url_list)):
-            browser = webdriver.Chrome(chrome_options=option)
             browser.get(sectionidx_url_list[i])
             s = browser.page_source.replace('amp;', '')
             # /Section/IndexDoctorIntro.aspx?title=%e5%bf%83%e8%a1%80%e7%ae%a1%e5%86%85%e7%a7%91
             m = re.findall(r"/Section/IndexDoctorIntro.aspx\?title=[%a-zA-Z0-9]+", s, re.M)
             section_url_list += m
-            browser.close()
+        browser.quit()
         # 整理
         tmp_url_list = []
         for surl in section_url_list:
@@ -159,23 +166,24 @@ def tjh_doctor():
         section_url_list = tmp_url_list
         dl = []
         print("共计{0}个科室页面".format(len(section_url_list)))
-        for j in range(1): # len(section_url_list)
+        browser2 = webdriver.Chrome(chrome_options=option)
+        for j in range(1):  # len(section_url_list)
             print("--第{0}个科室:{1}".format(j, section_url_list[j]))
-            browser2 = webdriver.Chrome(chrome_options=option)
             browser2.get('https://www.tjh.com.cn'+section_url_list[j])
+            browser2.switch_to.window(browser2.current_window_handle)
             s2 = browser2.page_source.replace('amp;', '')
             m2 = re.findall(r"IndexDoctorIntroInfo.aspx\?id=[0-9]+", s2, re.M)
             docturl_list = m2
-            browser2.close()
             # 科室名称
             doct_ks = urllib.parse.unquote(section_url_list[j].split('=')[-1])
 
             print("--该科室下共计{0}个医生".format(len(docturl_list)))
+            browser3 = webdriver.Chrome(chrome_options=option)
             for k in range(len(docturl_list)):
                 print("----第{0}个医生：{1}".format(k, docturl_list[k]))
                 detail_url = "https://www.tjh.com.cn/Section/" + docturl_list[k]
-                browser3 = webdriver.Chrome(chrome_options=option)
                 browser3.get(detail_url)
+                browser3.switch_to.window(browser3.current_window_handle)
 
                 # 姓名
                 item = browser3.find_element_by_class_name('personInfo-title')
@@ -201,14 +209,15 @@ def tjh_doctor():
                 doct_desc = ''
                 item = browser3.find_element_by_class_name('personNote')
                 item2 = item.find_elements_by_tag_name('p')
-                for n in range(1,len(item2)-1):
+                for n in range(1, len(item2)-1):
                     doct_desc += item2[n].text
 
                 # 姓名 性别 科室 职称 头像地址 擅长 简介
                 dl.append([doct_name, doct_gender, doct_ks, doct_zc, doct_imgurl, doct_zy,  doct_desc])
-                browser3.close()
-            time.sleep(0.1)
-
+                time.sleep(1)
+            browser3.quit()
+            time.sleep(1)
+        browser2.quit()
         dur = time.perf_counter() - start
         print("总计爬取用时：{:.2f}s".format(dur))
 
@@ -243,7 +252,7 @@ if __name__ == '__main__':
     # 通过配置文件获取相关参数：
     # 是否爬取医生信息、排班的日期
     hasdoctor = True
-    doctdate = "20200810"
+    doctdate = "20200815"
     # 协和医院
     whuh(hasdoctor, doctdate)
     # 同济医院
