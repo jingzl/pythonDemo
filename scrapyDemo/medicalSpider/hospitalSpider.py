@@ -115,12 +115,37 @@ def whuh_doctor():
         time.sleep(5)
 
 
+
+
 def whuh_doctor_schedule(doctdate):
     # 门诊安排：http://www.whuh.com/help/menzheng.html
     print("开始处理[whuh-doctor-schedule]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
-    start = time.perf_counter()
 
-    print(doctdate)
+    option = None
+    option = webdriver.ChromeOptions()
+    option.add_argument(argument='headless')
+    option.add_argument('--no-sandbox')
+    option.add_argument('start-maximized')
+
+    try:
+        start = time.perf_counter()
+        print(doctdate)
+        url = 'http://www.whuh.com/help/menzheng.html'
+        browser = webdriver.Chrome(chrome_options=option)
+        browser.implicitly_wait(10)
+        browser.get(url)
+        browser.find_element_by_id('btnAll').click()
+        # browser.implicitly_wait(3)
+        s = browser.page_source.replace('amp;', '')
+        print(s)
+
+
+
+
+
+    except Exception as e:
+        print(e)
+        time.sleep(5)
 
     print("处理完毕[whuh-doctor-schedule]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
 
@@ -251,12 +276,12 @@ def tjh(hasdoctor, doctdate):
 if __name__ == '__main__':
     # 通过配置文件获取相关参数：
     # 是否爬取医生信息、排班的日期
-    hasdoctor = True
+    hasdoctor = False
     doctdate = "20200815"
     # 协和医院
     whuh(hasdoctor, doctdate)
     # 同济医院
-    tjh(hasdoctor, doctdate)
+    # tjh(hasdoctor, doctdate)
 
     # end
     print("all end".center(100, '-'))
