@@ -14,21 +14,20 @@ import datetime
 import pandas as pd
 import numpy as np
 import urllib.parse
+import json
 
 
 def whuh_doctor():
     # 专家信息：http://www.whuh.com/doctorss/search.html（已包含知名专家信息）
     # 知名专家：http://www.whuh.com/doctorss/index/is_doc1/1.html
-    option = None
-    option = webdriver.ChromeOptions()
-    option.add_argument(argument='headless')
-    option.add_argument('--no-sandbox')
-    option.add_argument('start-maximized')
-
+    print("开始处理[whuh-doctor]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
     try:
-        print("开始处理[whuh-doctor]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
         start = time.perf_counter()
-
+        option = None
+        option = webdriver.ChromeOptions()
+        option.add_argument(argument='headless')
+        option.add_argument('--no-sandbox')
+        option.add_argument('start-maximized')
         # 获取医生信息
         url = 'http://www.whuh.com/doctorss/search.html'
         browser = webdriver.Chrome(chrome_options=option)
@@ -106,42 +105,54 @@ def whuh_doctor():
         print("总计爬取用时：{:.2f}s".format(dur))
 
         df = pd.DataFrame(dl, columns=['姓名', '性别', '科室', '职称', '头像地址', '擅长', '简介'], index=np.arange(len(dl)))
-        # 医生信息写入csv文件
+        # 医生信息写入文件
         df.to_excel('./output/doctor_whuh.xlsx', index=False)
-        print("处理完毕[whuh-doctor]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
 
     except Exception as e:
         print(e)
         time.sleep(5)
 
-
+    print("处理完毕[whuh-doctor]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
 
 
 def whuh_doctor_schedule(doctdate):
     # 门诊安排：http://www.whuh.com/help/menzheng.html
     print("开始处理[whuh-doctor-schedule]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
-
-    option = None
-    option = webdriver.ChromeOptions()
-    option.add_argument(argument='headless')
-    option.add_argument('--no-sandbox')
-    option.add_argument('start-maximized')
-
     try:
         start = time.perf_counter()
         print(doctdate)
-        url = 'http://www.whuh.com/help/menzheng.html'
+        option = None
+        option = webdriver.ChromeOptions()
+        option.add_argument(argument='headless')
+        option.add_argument('--no-sandbox')
+        option.add_argument('start-maximized')
         browser = webdriver.Chrome(chrome_options=option)
         browser.implicitly_wait(10)
-        browser.get(url)
-        browser.find_element_by_id('btnAll').click()
-        # browser.implicitly_wait(3)
-        s = browser.page_source.replace('amp;', '')
-        print(s)
-
-
-
-
+        paiban_dl = []
+        for k in range(1, 3):
+            # 指定日期的全部数据
+            url = 'http://www.whuh.com/searchmz/indexcopy.html?OutpDate={}&DeptName=&datatype=json&page={}'.format(doctdate, k)
+            browser.get(url)
+            s = browser.page_source.replace('amp;', '')
+            res = browser.find_element_by_tag_name('body').text
+            res_json = json.loads(res)
+            dl = res_json['list']
+            # 日期 时间 门诊 科室 医师 职称 院区 位置
+            for i in range(len(dl)):
+                yq = ''
+                if dl[i]['yqdm'] == '1300':
+                    yq = '西院门诊'
+                if dl[i]['yqdm'] == '1000' and dl[i]['Kinds'] == '肿瘤门诊':
+                    yq = '肿瘤门诊'
+                if dl[i]['yqdm'] == '1000' and dl[i]['Kinds'] != '肿瘤门诊':
+                    yq = '本部门诊'
+                paiban_dl.append([dl[i]['OutpDate'], dl[i]['TimeInterval'], dl[i]['TopDept'], dl[i]['SuperDept'], dl[i]['DoctorName'], dl[i]['titles'], yq, dl[i]['DeptAddress']])
+        browser.quit()
+        dur = time.perf_counter() - start
+        print("总计爬取用时：{:.2f}s".format(dur))
+        df = pd.DataFrame(paiban_dl, columns=['日期', '时间', '门诊', '科室', '医师', '职称', '院区', '位置'], index=np.arange(len(paiban_dl)))
+        # 医生信息写入文件
+        df.to_excel('./output/paiban_whuh_'+doctdate+'.xlsx', index=False)
 
     except Exception as e:
         print(e)
@@ -154,22 +165,23 @@ def whuh(hasdoctor, doctdate):
     # 武汉协和医院
     if hasdoctor:
         whuh_doctor()
-    whuh_doctor_schedule(doctdate)
+    if len(doctdate.strip()) > 0:
+        whuh_doctor_schedule(doctdate)
 
 
 def tjh_doctor():
-    # 专家信息
-    # 医疗科室 https://www.tjh.com.cn/Section/Index.aspx#title
-    # 医技科室 https://www.tjh.com.cn/Section/Technology.aspx#title
-    # 医疗中心 https://www.tjh.com.cn/Section/Center.aspx#title
-    option = None
-    option = webdriver.ChromeOptions()
-    option.add_argument(argument='headless')
-    option.add_argument('--no-sandbox')
-    option.add_argument('start-maximized')
+    print("开始处理[tjh-doctor]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
     try:
-        print("开始处理[tjh-doctor]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
         start = time.perf_counter()
+        # 专家信息
+        # 医疗科室 https://www.tjh.com.cn/Section/Index.aspx#title
+        # 医技科室 https://www.tjh.com.cn/Section/Technology.aspx#title
+        # 医疗中心 https://www.tjh.com.cn/Section/Center.aspx#title
+        option = None
+        option = webdriver.ChromeOptions()
+        option.add_argument(argument='headless')
+        option.add_argument('--no-sandbox')
+        option.add_argument('start-maximized')
         sectionidx_url_list = ['https://www.tjh.com.cn/Section/Index.aspx#title',
                                'https://www.tjh.com.cn/Section/Technology.aspx#title',
                                'https://www.tjh.com.cn/Section/Center.aspx#title']
@@ -249,19 +261,68 @@ def tjh_doctor():
         df = pd.DataFrame(dl, columns=['姓名', '性别', '科室', '职称', '头像地址', '擅长', '简介'], index=np.arange(len(dl)))
         # 医生信息写入csv文件
         df.to_excel('./output/doctor_tjh.xlsx', index=False)
-        print("处理完毕[tjh-doctor]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
 
     except Exception as e:
         print(e)
         time.sleep(5)
 
+    print("处理完毕[tjh-doctor]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
+
 
 def tjh_doctor_schedule(doctdate):
     # 门诊安排
     print("开始处理[tjh-doctor-schedule]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
-    start = time.perf_counter()
+    try:
+        start = time.perf_counter()
+        print(doctdate)
+        option = None
+        option = webdriver.ChromeOptions()
+        option.add_argument(argument='headless')
+        option.add_argument('--no-sandbox')
+        option.add_argument('start-maximized')
+        browser = webdriver.Chrome(chrome_options=option)
+        browser.implicitly_wait(10)
+        # https://www.tjh.com.cn/Menzhen/Arrange1.aspx?week=1&yuanqu=0&haobie=0&riqi=20200821&ksdaima=
+        # 院区 & 号别
+        yuanqu = [0, 1, 2]  # 主院区 光谷院区 中法新城院区
+        haobie = [0, 1, 2]  # 专家门诊 知名/综合专家门诊 普通门诊
+        paiban_dl = []
+        for i in range(3):
+            for j in range(3):
+                url = "https://www.tjh.com.cn/Menzhen/Arrange1.aspx?yuanqu={0}&haobie={1}&riqi={2}&ksdaima=".format(i, j, doctdate)
+                browser.get(url)
+                browser.switch_to.window(browser.current_window_handle)
+                mztb_item = browser.find_element_by_id('mztb')
+                if not mztb_item:
+                    continue
+                items = mztb_item.find_elements_by_class_name('table-list')
+                if not items or len(items) <= 0:
+                    continue
+                for k in range(len(items)):
+                    td_item = items[k].find_elements_by_tag_name('td')
+                    # 日期 时间 门诊 科室 医师 职称 院区 位置 状态
+                    paiban_time = td_item[0].text
+                    paiban_mz = td_item[1].text
+                    paiban_ks = td_item[2].text
+                    paiban_ys = td_item[3].text
+                    paiban_zc = td_item[4].text
+                    paiban_yq = td_item[5].text
+                    paiban_wz = td_item[6].text
+                    paiban_zt = td_item[7].text
+                    paiban_dl.append([doctdate, paiban_time, paiban_mz, paiban_ks, paiban_ys, paiban_zc, paiban_yq, paiban_wz, paiban_zt])
+                time.sleep(0.5)
 
-    print(doctdate)
+        browser.quit()
+        dur = time.perf_counter() - start
+        print("总计爬取用时：{:.2f}s".format(dur))
+
+        df = pd.DataFrame(paiban_dl, columns=['日期', '时间', '门诊', '科室', '医师', '职称', '院区', '位置', '状态'], index=np.arange(len(paiban_dl)))
+        # 医生信息写入文件
+        df.to_excel('./output/paiban_tjh_' + doctdate + '.xlsx', index=False)
+
+    except Exception as e:
+        print(e)
+        time.sleep(5)
 
     print("处理完毕[tjh-doctor-schedule]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
 
@@ -270,18 +331,24 @@ def tjh(hasdoctor, doctdate):
     # 同济医院
     if hasdoctor:
         tjh_doctor()
-    tjh_doctor_schedule(doctdate)
+    if len(doctdate.strip()) > 0:
+        tjh_doctor_schedule(doctdate)
 
 
 if __name__ == '__main__':
     # 通过配置文件获取相关参数：
     # 是否爬取医生信息、排班的日期
-    hasdoctor = False
-    doctdate = "20200815"
+    hasdoctor = False  # 是否爬取医生信息
+    doctdate = "20200820"  # 指定排班日期，必须是今日或往后六天
+    # 时间判断
+    # ...
+
+    # 如果不爬取排班，则直接传入空值即可 doctdate = ''
+
     # 协和医院
-    whuh(hasdoctor, doctdate)
+    # whuh(hasdoctor, doctdate)
     # 同济医院
-    # tjh(hasdoctor, doctdate)
+    tjh(hasdoctor, doctdate)
 
     # end
     print("all end".center(100, '-'))
