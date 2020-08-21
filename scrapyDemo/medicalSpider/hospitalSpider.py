@@ -287,9 +287,10 @@ def tjh_doctor_schedule(doctdate):
         yuanqu = [0, 1, 2]  # 主院区 光谷院区 中法新城院区
         haobie = [0, 1, 2]  # 专家门诊 知名/综合专家门诊 普通门诊
         paiban_dl = []
-        for i in range(3):
-            for j in range(3):
+        for i in range(len(yuanqu)):  # len(yuanqu)
+            for j in range(len(haobie)):  # len(haobie)
                 url = "https://www.tjh.com.cn/Menzhen/Arrange1.aspx?yuanqu={0}&haobie={1}&riqi={2}&ksdaima=".format(i, j, doctdate)
+                print(url)
                 browser.get(url)
                 browser.switch_to.window(browser.current_window_handle)
                 mztb_item = browser.find_element_by_id('mztb')
@@ -298,12 +299,16 @@ def tjh_doctor_schedule(doctdate):
                 items = mztb_item.find_elements_by_class_name('table-list')
                 if not items or len(items) <= 0:
                     continue
-                # 展开全部
-
+                btnall_item = browser.find_element_by_id('btnAll')
+                if btnall_item:
+                    browser.execute_script("arguments[0].click();", btnall_item)
+                print("院区-{} 号别-{}的排班共计：{}".format(i, j, len(items)))
                 for k in range(len(items)):
                     td_item = items[k].find_elements_by_tag_name('td')
                     # 日期 时间 门诊 科室 医师 职称 院区 位置 状态
                     paiban_time = td_item[0].text
+                    if not paiban_time:
+                        continue
                     paiban_mz = td_item[1].text
                     paiban_ks = td_item[2].text
                     paiban_ys = td_item[3].text
@@ -341,7 +346,7 @@ if __name__ == '__main__':
     # 通过配置文件获取相关参数：
     # 是否爬取医生信息、排班的日期
     hasdoctor = False  # 是否爬取医生信息
-    doctdate = "20200820"  # 指定排班日期，必须是今日或往后六天
+    doctdate = "20200822"  # 指定排班日期，必须是今日或往后六天
     # 时间判断
     # 如果不爬取排班，则直接传入空值即可 doctdate = ''
 
