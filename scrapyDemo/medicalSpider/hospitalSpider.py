@@ -298,6 +298,8 @@ def tjh_doctor_schedule(doctdate):
                 items = mztb_item.find_elements_by_class_name('table-list')
                 if not items or len(items) <= 0:
                     continue
+                # 展开全部
+
                 for k in range(len(items)):
                     td_item = items[k].find_elements_by_tag_name('td')
                     # 日期 时间 门诊 科室 医师 职称 院区 位置 状态
@@ -341,8 +343,6 @@ if __name__ == '__main__':
     hasdoctor = False  # 是否爬取医生信息
     doctdate = "20200820"  # 指定排班日期，必须是今日或往后六天
     # 时间判断
-    # ...
-
     # 如果不爬取排班，则直接传入空值即可 doctdate = ''
 
     # 协和医院
