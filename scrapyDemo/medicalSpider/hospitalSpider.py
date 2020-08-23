@@ -38,6 +38,7 @@ def whuh_doctor():
         dl = []
         print("共计{0}个科室页面".format(len(m)))
         browser2 = webdriver.Chrome(chrome_options=option)
+        # 可以通过调整下一个语句的range(m,n)来调整爬取哪些科室
         for i in range(2):  # len(m)
             print("--第{0}个科室:{1}".format(i, m[i]))
             browser2.get(m[i])
@@ -161,14 +162,6 @@ def whuh_doctor_schedule(doctdate):
     print("处理完毕[whuh-doctor-schedule]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
 
 
-def whuh(hasdoctor, doctdate):
-    # 武汉协和医院
-    if hasdoctor:
-        whuh_doctor()
-    if len(doctdate.strip()) > 0:
-        whuh_doctor_schedule(doctdate)
-
-
 def tjh_doctor():
     print("开始处理[tjh-doctor]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
     try:
@@ -204,6 +197,7 @@ def tjh_doctor():
         dl = []
         print("共计{0}个科室页面".format(len(section_url_list)))
         browser2 = webdriver.Chrome(chrome_options=option)
+        # 可以通过调整下一个语句的range(m,n)来调整爬取哪些科室
         for j in range(1):  # len(section_url_list)
             print("--第{0}个科室:{1}".format(j, section_url_list[j]))
             browser2.get('https://www.tjh.com.cn'+section_url_list[j])
@@ -269,7 +263,7 @@ def tjh_doctor():
     print("处理完毕[tjh-doctor]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
 
 
-def tjh_doctor_schedule(doctdate):
+def tjh_doctor_schedule(doctdate, yuanqu, haobie):
     # 门诊安排
     print("开始处理[tjh-doctor-schedule]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
     try:
@@ -284,11 +278,21 @@ def tjh_doctor_schedule(doctdate):
         browser.implicitly_wait(10)
         # https://www.tjh.com.cn/Menzhen/Arrange1.aspx?week=1&yuanqu=0&haobie=0&riqi=20200821&ksdaima=
         # 院区 & 号别
-        yuanqu = [0, 1, 2]  # 主院区 光谷院区 中法新城院区
-        haobie = [0, 1, 2]  # 专家门诊 知名/综合专家门诊 普通门诊
+        yuanqu_ls = [0, 1, 2]  # 主院区 光谷院区 中法新城院区
+        haobie_ls = [0, 1, 2]  # 专家门诊 知名/综合专家门诊 普通门诊
+        yq_ls = []
+        hb_ls = []
+        if yuanqu not in yuanqu_ls:
+            yq_ls = yuanqu_ls
+        else:
+            yq_ls.append(yuanqu)
+        if haobie not in haobie_ls:
+            hb_ls = haobie_ls
+        else:
+            hb_ls.append(haobie)
         paiban_dl = []
-        for i in range(len(yuanqu)):  # len(yuanqu)
-            for j in range(len(haobie)):  # len(haobie)
+        for i in yq_ls:
+            for j in hb_ls:
                 url = "https://www.tjh.com.cn/Menzhen/Arrange1.aspx?yuanqu={0}&haobie={1}&riqi={2}&ksdaima=".format(i, j, doctdate)
                 print(url)
                 browser.get(url)
@@ -334,26 +338,28 @@ def tjh_doctor_schedule(doctdate):
     print("处理完毕[tjh-doctor-schedule]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
 
 
-def tjh(hasdoctor, doctdate):
-    # 同济医院
-    if hasdoctor:
-        tjh_doctor()
-    if len(doctdate.strip()) > 0:
-        tjh_doctor_schedule(doctdate)
-
-
-if __name__ == '__main__':
-    # 通过配置文件获取相关参数：
-    # 是否爬取医生信息、排班的日期
-    hasdoctor = False  # 是否爬取医生信息
-    doctdate = "20200822"  # 指定排班日期，必须是今日或往后六天
-    # 时间判断
-    # 如果不爬取排班，则直接传入空值即可 doctdate = ''
-
+def main():
+    # 爬取医生信息
     # 协和医院
-    # whuh(hasdoctor, doctdate)
+    # whuh_doctor()
     # 同济医院
-    tjh(hasdoctor, doctdate)
+    # tjh_doctor()
+
+    # 爬取排班信息
+    doctdate = "20200822"  # 指定排班日期，必须是今日或往后六天
+    # 协和医院
+    # whuh_doctor_schedule(doctdate)
+    # 同济医院
+    # yuanqu = [0, 1, 2]  # 主院区 光谷院区 中法新城院区
+    # haobie = [0, 1, 2]  # 专家门诊 知名/综合专家门诊 普通门诊
+    # 如果为-1，则全部处理
+    yuanqu = 0
+    haobie = 0
+    tjh_doctor_schedule(doctdate, yuanqu, haobie)
 
     # end
     print("all end".center(100, '-'))
+
+
+if __name__ == '__main__':
+    main()
