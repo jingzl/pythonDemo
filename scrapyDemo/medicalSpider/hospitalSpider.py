@@ -39,7 +39,7 @@ def whuh_doctor():
         print("共计{0}个科室页面".format(len(m)))
         browser2 = webdriver.Chrome(chrome_options=option)
         # 可以通过调整下一个语句的range(m,n)来调整爬取哪些科室
-        for i in range(2):  # len(m)
+        for i in range(len(m)):  #
             print("--第{0}个科室:{1}".format(i, m[i]))
             browser2.get(m[i])
             browser2.switch_to.window(browser2.current_window_handle)
@@ -48,21 +48,22 @@ def whuh_doctor():
             docturl_list = list(set(m2))
 
             # 处理分页信息
-            yiipager_item = browser2.find_element_by_class_name('yiiPager')
-            page_items = yiipager_item.find_elements_by_class_name('page')
-            browser_page = webdriver.Chrome(chrome_options=option)
-            for p in range(1, len(page_items)): # 从2页开始
-                a_item = page_items[p].find_element_by_tag_name('a')
-                page_url = a_item.get_attribute('href')
-                if len(page_url) <= 0:
-                    continue
-                browser_page.get(page_url)
-                browser_page.switch_to.window(browser_page.current_window_handle)
-                s_page = browser_page.page_source.replace('amp;', '')
-                p_docturl = re.findall(r"/doctorss/view/[0-9]*.html", s_page, re.M)
-                docturl_list += list(set(p_docturl))
-                time.sleep(1)
-            browser_page.quit()
+            if len(docturl_list) > 1:
+                yiipager_item = browser2.find_element_by_class_name('yiiPager')
+                page_items = yiipager_item.find_elements_by_class_name('page')
+                browser_page = webdriver.Chrome(chrome_options=option)
+                for p in range(1, len(page_items)): # 从2页开始
+                    a_item = page_items[p].find_element_by_tag_name('a')
+                    page_url = a_item.get_attribute('href')
+                    if len(page_url) <= 0:
+                        continue
+                    browser_page.get(page_url)
+                    browser_page.switch_to.window(browser_page.current_window_handle)
+                    s_page = browser_page.page_source.replace('amp;', '')
+                    p_docturl = re.findall(r"/doctorss/view/[0-9]*.html", s_page, re.M)
+                    docturl_list += list(set(p_docturl))
+                    time.sleep(1)
+                browser_page.quit()
 
             # http://www.whuh.com/doctorss/view/127.html
             print("--该科室下共计{0}个医生".format(len(docturl_list)))
@@ -341,7 +342,7 @@ def tjh_doctor_schedule(doctdate, yuanqu, haobie):
 def main():
     # 爬取医生信息
     # 协和医院
-    # whuh_doctor()
+    whuh_doctor()
     # 同济医院
     # tjh_doctor()
 
@@ -355,7 +356,7 @@ def main():
     # 如果为-1，则全部处理
     yuanqu = 0
     haobie = 0
-    tjh_doctor_schedule(doctdate, yuanqu, haobie)
+    #tjh_doctor_schedule(doctdate, yuanqu, haobie)
 
     # end
     print("all end".center(100, '-'))
