@@ -28,13 +28,17 @@ def parseSheet(sheet):
     for i in range(sheet.nrows):
         row = sheet.row(i)
         # 症状名称
-        print( row[0].value, row[1].value )
-
+        if row[0].value == '症状名称' and row[1].value == '症状属性值':
+            print(row[0].value)
 
         # 体征名称
+        if row[0].value == '体征名称' and row[1].value == '体征属性值':
+            print(row[0].value)
 
 
         # 辅助检查名称
+        if row[0].value == '辅助检查名称' and row[1].value == '特征值':
+            print(row[0].value)
 
 
 
