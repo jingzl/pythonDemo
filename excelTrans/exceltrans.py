@@ -10,6 +10,8 @@ import os
 import pandas as pd
 import numpy as np
 import xlrd
+import time
+import datetime
 
 CONST_DATA_PATH = './data/'
 CONST_OUTPUT_PATH = './output/'
@@ -17,9 +19,9 @@ CONST_OUTPUT_PATH = './output/'
 
 def saveFile(df_zz, df_tz, df_fz):
     try:
-        df_zz.to_excel(CONST_OUTPUT_PATH + '疾病症状_1.xlsx', index=False)
-        df_tz.to_excel(CONST_OUTPUT_PATH + '疾病体征_2.xlsx', index=False)
-        df_fz.to_excel(CONST_OUTPUT_PATH + '疾病辅助检查_3.xlsx', index=False)
+        df_zz.to_excel(CONST_OUTPUT_PATH + '疾病症状_{}.xlsx'.format(datetime.datetime.now().strftime('%Y%m%d%H%M%S')), index=False)
+        df_tz.to_excel(CONST_OUTPUT_PATH + '疾病体征_{}.xlsx'.format(datetime.datetime.now().strftime('%Y%m%d%H%M%S')), index=False)
+        df_fz.to_excel(CONST_OUTPUT_PATH + '疾病辅助检查_{}.xlsx'.format(datetime.datetime.now().strftime('%Y%m%d%H%M%S')), index=False)
     except Exception as e:
         print(e)
 
