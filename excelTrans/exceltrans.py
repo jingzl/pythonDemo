@@ -38,7 +38,9 @@ def parseSheet(sheet, zz_ls, tz_ls, fz_ls):
         for i in range(sheet.nrows):
             row = sheet.row(i)
             name = row[0].value.strip()
-            val = row[1].value.strip()
+            val = row[1].value
+            if isinstance(val, str):
+                val = val.strip()
             if len(name) <= 0 and len(val) <= 0:
                 continue
             if name == '症状名称' and val == '症状属性值':
@@ -53,7 +55,7 @@ def parseSheet(sheet, zz_ls, tz_ls, fz_ls):
 
             if flag == 1 and name != '症状名称':
                 if len(lastName) <= 0 and len(name) <= 0:
-                    print('data error')
+                    print('data error -- 症状名称')
                     continue
                 if len(name) > 0 and len(val) > 0:
                     zz_ls.append([ksName, diseaseName, name, val])
@@ -62,7 +64,7 @@ def parseSheet(sheet, zz_ls, tz_ls, fz_ls):
                     zz_ls.append([ksName, diseaseName, lastName, val])
             elif flag == 2 and name != '体征名称':
                 if len(lastName) <= 0 and len(name) <= 0:
-                    print('data error')
+                    print('data error -- 体征名称')
                     continue
                 if len(name) > 0 and len(val) > 0:
                     tz_ls.append([ksName, diseaseName, name, val])
@@ -71,7 +73,7 @@ def parseSheet(sheet, zz_ls, tz_ls, fz_ls):
                     tz_ls.append([ksName, diseaseName, lastName, val])
             elif flag == 3 and name != '辅助检查名称':
                 if len(lastName) <= 0 and len(name) <= 0:
-                    print('data error')
+                    print('data error -- 辅助检查名称')
                     continue
                 if len(name) > 0 and len(val) > 0:
                     fz_ls.append([ksName, diseaseName, name, val])
