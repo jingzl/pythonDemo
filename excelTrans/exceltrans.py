@@ -31,6 +31,8 @@ def parseSheet(sheet, zz_ls, tz_ls, fz_ls):
         # 症状，体征，辅助
         diseaseName = sheet.cell_value(0, 1)
         print(diseaseName)
+        ksName = sheet.cell_value(3, 1)
+        print(ksName)
         flag = 0
         lastName = ''
         for i in range(sheet.nrows):
@@ -54,28 +56,28 @@ def parseSheet(sheet, zz_ls, tz_ls, fz_ls):
                     print('data error')
                     continue
                 if len(name) > 0 and len(val) > 0:
-                    zz_ls.append([diseaseName, name, val])
+                    zz_ls.append([ksName, diseaseName, name, val])
                     lastName = name
                 if len(name) <= 0 and len(val) > 0 and len(lastName) > 0:
-                    zz_ls.append([diseaseName, lastName, val])
+                    zz_ls.append([ksName, diseaseName, lastName, val])
             elif flag == 2 and name != '体征名称':
                 if len(lastName) <= 0 and len(name) <= 0:
                     print('data error')
                     continue
                 if len(name) > 0 and len(val) > 0:
-                    tz_ls.append([diseaseName, name, val])
+                    tz_ls.append([ksName, diseaseName, name, val])
                     lastName = name
                 if len(name) <= 0 and len(val) > 0 and len(lastName) > 0:
-                    tz_ls.append([diseaseName, lastName, val])
+                    tz_ls.append([ksName, diseaseName, lastName, val])
             elif flag == 3 and name != '辅助检查名称':
                 if len(lastName) <= 0 and len(name) <= 0:
                     print('data error')
                     continue
                 if len(name) > 0 and len(val) > 0:
-                    fz_ls.append([diseaseName, name, val])
+                    fz_ls.append([ksName, diseaseName, name, val])
                     lastName = name
                 if len(name) <= 0 and len(val) > 0 and len(lastName) > 0:
-                    fz_ls.append([diseaseName, lastName, val])
+                    fz_ls.append([ksName, diseaseName, lastName, val])
 
     except Exception as e:
         print(e)
@@ -98,9 +100,9 @@ def parseFile():
                 sheet = excel.sheet_by_index(0)
                 parseSheet(sheet, zz_ls, tz_ls, fz_ls)
 
-        df_zz = pd.DataFrame(zz_ls, columns=['疾病名称', '症状名称', '症状属性值'], index=np.arange(len(zz_ls)))
-        df_tz = pd.DataFrame(tz_ls, columns=['疾病名称', '体征名称', '体征属性值'], index=np.arange(len(tz_ls)))
-        df_fz = pd.DataFrame(fz_ls, columns=['疾病名称', '辅助检查名称', '辅助检查属性值'], index=np.arange(len(fz_ls)))
+        df_zz = pd.DataFrame(zz_ls, columns=['所属科室', '疾病名称', '症状名称', '症状属性值'], index=np.arange(len(zz_ls)))
+        df_tz = pd.DataFrame(tz_ls, columns=['所属科室', '疾病名称', '体征名称', '体征属性值'], index=np.arange(len(tz_ls)))
+        df_fz = pd.DataFrame(fz_ls, columns=['所属科室', '疾病名称', '辅助检查名称', '辅助检查属性值'], index=np.arange(len(fz_ls)))
         return df_zz, df_tz, df_fz
 
     except Exception as e:
