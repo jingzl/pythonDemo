@@ -342,12 +342,12 @@ def tjh_doctor_schedule(doctdate, yuanqu, haobie):
 def main():
     # 爬取医生信息
     # 协和医院
-    whuh_doctor()
+    # whuh_doctor()
     # 同济医院
     # tjh_doctor()
 
     # 爬取排班信息
-    doctdate = "20200822"  # 指定排班日期，必须是今日或往后六天
+    doctdate = "20200824"  # 指定排班日期，必须是今日或往后六天
     # 协和医院
     # whuh_doctor_schedule(doctdate)
     # 同济医院
@@ -356,7 +356,7 @@ def main():
     # 如果为-1，则全部处理
     yuanqu = 0
     haobie = 0
-    #tjh_doctor_schedule(doctdate, yuanqu, haobie)
+    tjh_doctor_schedule(doctdate, yuanqu, haobie)
 
     # end
     print("all end".center(100, '-'))
