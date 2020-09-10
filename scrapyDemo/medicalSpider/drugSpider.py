@@ -20,37 +20,14 @@ import urllib.parse
 
 import re
 from selenium import webdriver
+from selenium.webdriver import DesiredCapabilities
+from selenium.webdriver.chrome.options import Options
 from utils import *
 import json
 import time
 
+
 '''
-def main():
-
-    url = "http://app1.nmpa.gov.cn/datasearchcnda/face3/base.jsp?tableId=32&tableName=TABLE32&title=%B9%FA%B2%FA%D2%A9%C6%B7%C9%CC%C6%B7%C3%FB&bcId=152904813882776432084296368957"
-
-    opener = urllib.request.build_opener()
-    opener.addheaders = [#('Host', 'www.nmpa.gov.cn'),
-        ('User-Agent',"Mozilla/5.0(Windows NT 10.0; WOW64) AppleWebKit/537.36(KHTML, like Gecko) Chrome/69.0.3497.81 Safari/537.36  Maxthon / 5.3.8.2000"),
-                         #('Accept', 'image / webp, image / apng, image / *, * / *;q = 0.8'),
-                         #('Accept-Encoding', 'gzip, deflate'),
-                         #('Accept-Language', 'zh-CN'),
-                         #('Connection', 'keep-alive')
-                         ]
-    urllib.request.install_opener(opener)
-    response = urllib.request.urlopen(url)
-    html = response.read()
-
-    path = "D:\\4-1.html"
-    with open(path, 'wb') as f:
-        f.write(html)
-        f.close()
-        print("文件保存成功")
-
-    response.close()
-    '''
-
-
 def main():
     option = None
     mysql_db = DataBase()
@@ -105,22 +82,21 @@ def main():
 
 
 def parse2json(html):
-    '''
-    批准文号        pzwh
-    批准文号备注    pzwhbz
-    产品名称        cpmc
-    英文名称        ywmc
-    商品名          spm
-    生产单位        scdw
-    规格            gg
-    剂型            jx
-    产品类别        cplb
-    批准日期        pzrq
-    原批准文号      ypzwh
-    药品本位码      ypbwm
-    药品本位码备注  ypbwmbz
-    生产地址        scdz
-    '''
+    # 批准文号        pzwh
+    # 批准文号备注    pzwhbz
+    # 产品名称        cpmc
+    # 英文名称        ywmc
+    # 商品名          spm
+    # 生产单位        scdw
+    # 规格            gg
+    # 剂型            jx
+    # 产品类别        cplb
+    # 批准日期        pzrq
+    # 原批准文号      ypzwh
+    # 药品本位码      ypbwm
+    # 药品本位码备注  ypbwmbz
+    # 生产地址        scdz
+    
     # 初始化，避免取不到的情况下为空值
     result_json = dict()
     # 批准文号
@@ -147,8 +123,51 @@ def parse2json(html):
         else:
             result_json[i] = ''
     return json.dumps(result_json, ensure_ascii=False)
+'''
+
+# 国产药品商品名
+def GCYPSPM():
+    option = None
+    option = webdriver.ChromeOptions()
+    option.add_argument('--headless')
+    option.add_argument('--no-sandbox')
+    option.add_argument('--disable-gpu')
+    option.add_argument('disable-dev-shm-usage')
+    option.add_argument("--window-size=800x600")
+    option.add_argument("start-maximised")
+
+    capabilities = DesiredCapabilities.CHROME.copy()
+    capabilities['acceptSslCerts'] = True
+    capabilities['acceptInsecureCerts'] = True
+    capabilities['marionette'] = False
+
+    browser = webdriver.Chrome(chrome_options=option, desired_capabilities=capabilities)
+    browser.implicitly_wait(10)
+
+    url = "http://app1.nmpa.gov.cn/data_nmpa/face3/base.jsp?tableId=32&tableName=TABLE32&title=%B9%FA%B2%FA%D2%A9%C6%B7%C9%CC%C6%B7%C3%FB&bcId=152904813882776432084296368957"
+
+    browser.get(url)
+    s = browser.page_source.replace('amp;', '')
+    m = re.findall(r"javascript:commitForECMA", s, re.M)
+    print(len(m))
 
 
+def GCYPSPM2():
+    #browser = webdriver.Firefox()
+    #url = "http://app1.nmpa.gov.cn/data_nmpa/face3/base.jsp?tableId=32&tableName=TABLE32&title=%B9%FA%B2%FA%D2%A9%C6%B7%C9%CC%C6%B7%C3%FB&bcId=152904813882776432084296368957"
+
+    #browser.get(url)
+    #s = browser.page_source.replace('amp;', '')
+    pass
+
+
+
+
+
+
+
+def main():
+    GCYPSPM()
 
 
 if __name__ == '__main__':
