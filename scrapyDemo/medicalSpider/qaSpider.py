@@ -92,22 +92,21 @@ def baiduQuery(keyword, targetsite):
 def query(keyword_list):
     print("开始处理[query]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
     print("共计[{0}]个目标站，[{1}]个关键字".format(len(CONST_TARGETSITE), len(keyword_list)))
-
     start = time.perf_counter()
-    dl = []
+
     for i in range(len(keyword_list)):  #
         keyword = keyword_list[i].strip()
         if len(keyword) <= 0:
             continue
         print("--keyword-{0}".format(keyword))
+        dl = []
         for j in range(len(CONST_TARGETSITE)):  #
             targetsite = CONST_TARGETSITE[j]
             print("----site-{0}".format(targetsite))
             dl += baiduQuery(keyword, targetsite)
-
-    df = pd.DataFrame(dl, columns=['keyword', 'targetsite', '提问', '回答'], index=np.arange(len(dl)))
-    # 医生信息写入excel文件
-    df.to_excel('./output/qa_{}.xlsx'.format(datetime.datetime.now().strftime('%Y%m%d')), index=False)
+        df = pd.DataFrame(dl, columns=['keyword', 'targetsite', '提问', '回答'], index=np.arange(len(dl)))
+        # 医生信息写入excel文件
+        df.to_excel('./output/qa_{0}_{2}_{1}.xlsx'.format(keyword, datetime.datetime.now().strftime('%Y%m%d'), i), index=False)
 
     dur = time.perf_counter() - start
     print("总计爬取用时：{:.2f}s".format(dur))
