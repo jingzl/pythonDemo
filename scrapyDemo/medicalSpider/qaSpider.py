@@ -6,13 +6,19 @@ Created on Thu Jul 16 2020
 __author__ = 'jingzl'
 __version__ = '1.0'
 
+import os
 import re
 from selenium import webdriver
 import time
 import datetime
 import pandas as pd
 import numpy as np
-
+import xlrd
+import argparse
+parser = argparse.ArgumentParser()
+parser.description = 'please enter parameters a ...'
+parser.add_argument('-a', '--inputA', help='参数: 0 爬取， 1 合并', dest='argA', type=int, default=1)
+args = parser.parse_args()
 
 # 目标站
 CONST_TARGETSITE = ['youlai.cn','mfk.com','ydf.com','baikemy.com','myzx.cn','sytown.cn','yxys.com','miaoshou.com',
@@ -61,11 +67,11 @@ def baiduQuery(keyword, targetsite):
     option.add_argument('--no-sandbox')
     option.add_argument('start-maximized')
 
+    dl = []
     try:
         url = 'http://m.baidu.com/s?word=site:'+targetsite+'+'+keyword
         browser = webdriver.Chrome(chrome_options=option)
         browser.get(url)
-        dl = []
         dl = pageQuery(keyword, targetsite, browser)
         browser.quit()
         browser2 = webdriver.Chrome(chrome_options=option)
@@ -87,6 +93,7 @@ def baiduQuery(keyword, targetsite):
     except Exception as e:
         print(e)
         time.sleep(5)
+        return dl
 
 
 def query(keyword_list):
@@ -113,12 +120,44 @@ def query(keyword_list):
     print("处理完毕[query]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
 
 
-if __name__ == '__main__':
-    # 解析爬虫配置
-    keyword_list = []
-    with open('./conf/keyword.txt', 'r', encoding='UTF-8') as f:
-        keyword_list = f.read().splitlines()
-    query(keyword_list)
+def combinedata(qa_path):
+    try:
+        qa_ls = []
+        fnames = os.listdir(qa_path)
+        for f in fnames:
+            datafile = qa_path + f
+            excel = xlrd.open_workbook(datafile, encoding_override='utf-8')
+            if excel:
+                print(datafile)
+                # all_sheet = excel.sheets()
+                # print(all_sheet)
+                sheet = excel.sheet_by_index(0)
+                for i in range(1,sheet.nrows):
+                    row = sheet.row(i)
+                    v0 = row[0].value
+                    v1 = row[1].value
+                    v2 = row[2].value
+                    v3 = row[3].value
+                    qa_ls.append([v0, v1, v2, v3])
+        df_qa = pd.DataFrame(qa_ls, columns=['keyword', 'targetsite', '提问', '回答'], index=np.arange(len(qa_ls)))
+        qa_file = './output/' + 'qa合并_{}.xlsx'.format(datetime.datetime.now().strftime('%Y%m%d%H%M%S'))
+        df_qa.to_excel(qa_file, index=False)
+        print('----{}'.format(qa_file))
 
+    except Exception as e:
+        print(e)
+
+
+if __name__ == '__main__':
+    if args.argA == 0:
+        # 解析爬虫配置
+        keyword_list = []
+        with open('./conf/keyword.txt', 'r', encoding='UTF-8') as f:
+            keyword_list = f.read().splitlines()
+        query(keyword_list)
+    elif args.argA == 1:
+        combinedata('./output/qa/')
+    else:
+        print("invalid parameter, please check -h")
     # end
     print("all end".center(100, '-'))
