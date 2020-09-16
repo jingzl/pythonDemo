@@ -16,8 +16,9 @@ import numpy as np
 import xlrd
 import argparse
 parser = argparse.ArgumentParser()
-parser.description = 'please enter parameters a ...'
-parser.add_argument('-a', '--inputA', help='参数: 0 爬取， 1 合并', dest='argA', type=int, default=1)
+parser.description = 'please enter parameters ...'
+parser.add_argument('-q', '--query', help='爬取', dest='argQ', action='store_true')
+parser.add_argument('-c', '--combine', help='合并', dest='argC', action='store_true')
 args = parser.parse_args()
 
 # 目标站
@@ -96,11 +97,14 @@ def baiduQuery(keyword, targetsite):
         return dl
 
 
-def query(keyword_list):
+def query(keyword_config):
     print("开始处理[query]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
-    print("共计[{0}]个目标站，[{1}]个关键字".format(len(CONST_TARGETSITE), len(keyword_list)))
     start = time.perf_counter()
 
+    keyword_list = []
+    with open(keyword_config, 'r', encoding='UTF-8') as f:
+        keyword_list = f.read().splitlines()
+    print("共计[{0}]个目标站，[{1}]个关键字".format(len(CONST_TARGETSITE), len(keyword_list)))
     for i in range(len(keyword_list)):  #
         keyword = keyword_list[i].strip()
         if len(keyword) <= 0:
@@ -149,13 +153,9 @@ def combinedata(qa_path):
 
 
 if __name__ == '__main__':
-    if args.argA == 0:
-        # 解析爬虫配置
-        keyword_list = []
-        with open('./conf/keyword.txt', 'r', encoding='UTF-8') as f:
-            keyword_list = f.read().splitlines()
-        query(keyword_list)
-    elif args.argA == 1:
+    if args.argQ:
+        query('./conf/keyword.txt')
+    elif args.argC:
         combinedata('./output/qa/')
     else:
         print("invalid parameter, please check -h")
