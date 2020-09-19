@@ -116,6 +116,7 @@ def query(keyword_config):
             print("----site-{0}".format(targetsite))
             dl += baiduQuery(keyword, targetsite)
         df = pd.DataFrame(dl, columns=['keyword', 'targetsite', '提问', '回答'], index=np.arange(len(dl)))
+        df = df.drop_duplicates(subset=['提问'], keep='first')
         # 医生信息写入excel文件
         df.to_excel('./output/qa_{0}_{2}_{1}.xlsx'.format(keyword, datetime.datetime.now().strftime('%Y%m%d'), i), index=False)
 
@@ -143,7 +144,8 @@ def combinedata(qa_path):
                     v2 = row[2].value
                     v3 = row[3].value
                     qa_ls.append([v0, v1, v2, v3])
-        df_qa = pd.DataFrame(qa_ls, columns=['keyword', 'targetsite', '提问', '回答'], index=np.arange(len(qa_ls)))
+        df_qa = pd.DataFrame(qa_ls, columns=['keyword', 'targetsite', '提问', '回答'], index=np.arange(len(qa_ls)))  # ,
+        df_qa = df_qa.drop_duplicates(subset=['提问'], keep='first')
         qa_file = './output/' + 'qa合并_{}.xlsx'.format(datetime.datetime.now().strftime('%Y%m%d%H%M%S'))
         df_qa.to_excel(qa_file, index=False)
         print('----{}'.format(qa_file))
