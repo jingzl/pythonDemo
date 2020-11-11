@@ -35,7 +35,8 @@ def pageQuery(keyword, browser):
     dl = []
     qtitle = ''
     qtxt = ''
-    url2 = ''
+    qurl = ''
+    ks = ''
     item_results = browser.find_elements_by_css_selector('.c-result.result')
     for i in range(len(item_results)):
         item_result = item_results[i]
@@ -72,19 +73,13 @@ def pageQuery(keyword, browser):
             item_durl = item_top.click()
             time.sleep(1)
             browser.switch_to.window(browser.window_handles[0])
-            url2 = browser.current_url
-            print(url2)
+            qurl = browser.current_url
+            print(qurl)
 
         except Exception as e:
-            #print(e)
-            #time.sleep(1)
             continue
 
-        # print(qcontent)
-        # keyword targetsite 提问 回答
-        #dl.append([keyword, targetsite, qtitle, qcontent])
-
-    dl.append([keyword, qtitle, qtxt, url2])
+    dl.append([keyword, qtitle, qtxt, qurl, ks])
 
     return dl
 
@@ -92,7 +87,7 @@ def pageQuery(keyword, browser):
 def baiduQuery(keyword):
     option = None
     option = webdriver.ChromeOptions()
-    #option.add_argument(argument='headless')
+    option.add_argument(argument='headless')
     option.add_argument('--no-sandbox')
     option.add_argument('start-maximized')
 
@@ -113,12 +108,6 @@ def baiduQuery(keyword):
             dl += pageQuery(keyword, browser2)
             time.sleep(1)
         browser2.quit()
-        # 去重
-        tmp_list = []
-        for item in dl:
-            if item not in tmp_list:
-                tmp_list.append(item)
-        dl = tmp_list
         '''
         return dl
 
@@ -144,7 +133,7 @@ def query(keyword_config):
         print("--keyword-{0}".format(keyword))
         dl += baiduQuery(keyword)
 
-    df = pd.DataFrame(dl, columns=['keyword', '提问', '回答', '链接'], index=np.arange(len(dl)))
+    df = pd.DataFrame(dl, columns=['keyword', '标题', '回答', 'URL', '科室'], index=np.arange(len(dl)))
     #df = df.drop_duplicates(subset=['提问'], keep='first')
     # 医生信息写入excel文件
     df.to_excel('./output/qa2_{0}.xlsx'.format(datetime.datetime.now().strftime('%Y%m%d')), index=False)
@@ -154,40 +143,12 @@ def query(keyword_config):
     print("处理完毕[query]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
 
 
-def combinedata(qa_path):
-    try:
-        qa_ls = []
-        fnames = os.listdir(qa_path)
-        for f in fnames:
-            datafile = qa_path + f
-            excel = xlrd.open_workbook(datafile, encoding_override='utf-8')
-            if excel:
-                print(datafile)
-                # all_sheet = excel.sheets()
-                # print(all_sheet)
-                sheet = excel.sheet_by_index(0)
-                for i in range(1,sheet.nrows):
-                    row = sheet.row(i)
-                    v0 = row[0].value
-                    v1 = row[1].value
-                    v2 = row[2].value
-                    v3 = row[3].value
-                    qa_ls.append([v0, v1, v2, v3])
-        df_qa = pd.DataFrame(qa_ls, columns=['keyword', 'targetsite', '提问', '回答'], index=np.arange(len(qa_ls)))  # ,
-        df_qa = df_qa.drop_duplicates(subset=['提问'], keep='first')
-        qa_file = './output/' + 'qa合并_{}.xlsx'.format(datetime.datetime.now().strftime('%Y%m%d%H%M%S'))
-        df_qa.to_excel(qa_file, index=False)
-        print('----{}'.format(qa_file))
-
-    except Exception as e:
-        print(e)
-
 
 if __name__ == '__main__':
     query('./conf/querykeyword.txt')
     '''
     if args.argQ:
-        query('./conf/keyword2.txt')
+        query('./conf/querykeyword.txt')
     elif args.argC:
         combinedata('./output/qa2/')
     else:
