@@ -9,14 +9,12 @@ https://m.baidu.com/bh/m/detail/qr_8637588506800154377
 __author__ = 'jingzl'
 __version__ = '1.0'
 
-import os
-import re
+
 from selenium import webdriver
 import time
 import datetime
 import pandas as pd
 import numpy as np
-import xlrd
 
 
 # 目标站
@@ -116,6 +114,17 @@ def baiduQuery(keyword):
         return dl
 
 
+def append_df_to_excel(excel_file, dl):
+    from openpyxl import load_workbook
+    writer = pd.ExcelWriter(excel_file, engine='openpyxl')
+    writer.book = load_workbook(excel_file)
+    start_row = writer.book['Sheet1'].max_row
+    writer.sheets = {ws.title: ws for ws in writer.book.worksheets}
+    df = pd.DataFrame(dl)
+    df.to_excel(writer, 'Sheet1', startrow=start_row, header=False, index=False)
+    writer.save()
+
+
 def query(keyword_config):
     print("开始处理[query]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
     start = time.perf_counter()
@@ -124,17 +133,18 @@ def query(keyword_config):
     with open(keyword_config, 'r', encoding='UTF-8') as f:
         keyword_list = f.read().splitlines()
     print("共计[{0}]个关键字".format(len(keyword_list)))
-    dl = []
+    excel_file = './output/qa2_{0}.xlsx'.format(datetime.datetime.now().strftime('%Y%m%d%H%M%S'))
     for i in range(len(keyword_list)):  #
         keyword = keyword_list[i].strip()
         if len(keyword) <= 0:
             continue
-        print("--keyword-{0}".format(keyword))
-        dl += baiduQuery(keyword)
-
-    df = pd.DataFrame(dl, columns=['keyword', '标题', '回答', 'URL', '科室'], index=np.arange(len(dl)))
-    # 医生信息写入excel文件
-    df.to_excel('./output/qa2_{0}.xlsx'.format(datetime.datetime.now().strftime('%Y%m%d%H%M%S')), index=False)
+        print("--keyword-{0}/{1}-{2}".format(i,len(keyword_list),keyword))
+        dl = baiduQuery(keyword)
+        if i == 0:
+            df = pd.DataFrame(dl, columns=['keyword', '标题', '回答', 'URL', '科室'], index=np.arange(len(dl)))
+            df.to_excel(excel_file, index=False)
+        else:
+            append_df_to_excel(excel_file, dl)
 
     dur = time.perf_counter() - start
     print("总计爬取用时：{:.2f}s".format(dur))
