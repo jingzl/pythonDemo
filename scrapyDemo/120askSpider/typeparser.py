@@ -54,9 +54,6 @@ def outputURL(dl):
         with pd.ExcelWriter(fname, engine='xlsxwriter', options={'strings_to_urls': False}) as writer:
             df.to_excel(writer, header=False, index=False)
 
-        #df = pd.DataFrame(ls, index=np.arange(len(ls)))
-        #df.to_excel(fname, header=False, index=False)
-
 
 def parseTypeForURL(typeFile, files):
     try:
