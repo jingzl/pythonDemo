@@ -23,7 +23,7 @@ def logError(url):
 
 
 def append_df_to_excel(excel_file, dl):
-    writer = pd.ExcelWriter(excel_file, engine='openpyxl')
+    writer = pd.ExcelWriter(excel_file, engine='openpyxl', options={'strings_to_urls': False})
     writer.book = load_workbook(excel_file)
     start_row = writer.book['Sheet1'].max_row
     writer.sheets = {ws.title: ws for ws in writer.book.worksheets}
@@ -31,7 +31,7 @@ def append_df_to_excel(excel_file, dl):
     df.to_excel(writer, 'Sheet1', startrow=start_row, header=False, index=False)
     writer.save()
 
-
+'''
 def outputURL(url1, url2):
     dl = []
     dl.append([url2])
@@ -41,6 +41,21 @@ def outputURL(url1, url2):
         df.to_excel(fname, header=False, index=False)
     else:
         append_df_to_excel(fname, dl)
+'''
+
+
+def outputURL(dl):
+    for item in dl:
+        ls = list(dl[item])
+        url = item.split('//')
+        url1 = url[1].split('/')
+        fname = CONST_OUTPUT_PATH + url[0].split(':')[0] + '_' + url1[0] + '_' + url1[1] + '.xlsx'
+        df = pd.DataFrame(ls)
+        with pd.ExcelWriter(fname, engine='xlsxwriter', options={'strings_to_urls': False}) as writer:
+            df.to_excel(writer, header=False, index=False)
+
+        #df = pd.DataFrame(ls, index=np.arange(len(ls)))
+        #df.to_excel(fname, header=False, index=False)
 
 
 def parseTypeForURL(typeFile, files):
@@ -54,7 +69,8 @@ def parseTypeForURL(typeFile, files):
                 typeurl = row[0].value.strip()
                 typels.append(typeurl)
 
-        for i in range(1): #len(files)
+        dl = {}
+        for i in range(len(files)):
             datafile = CONST_DATA_PATH + files[i]
             print(datafile)
             excel = xlrd.open_workbook(datafile, encoding_override='utf-8')
@@ -69,11 +85,12 @@ def parseTypeForURL(typeFile, files):
                         url2 = url1[1].split('/')
                         url3 = url1[0] + '//' + url2[0] + '/' + url2[1]
                         if url3 in typels:
-                            outputURL(url2, url)
+                            dl.setdefault(url3, set()).add(url)
                     except Exception as e:
                         print(e)
                         logError(url)
                         continue
+        outputURL(dl)
 
     except Exception as e:
         print(e)
@@ -125,7 +142,7 @@ if __name__ == '__main__':
     start = time.perf_counter()
 
     # 解析原始数据统计分类 v1-120ask_test.xlsx
-    firstFiles = ['v1-120ask_test.xlsx', 'v1-120ask.xlsx', 'v2-120ask.xlsx', 'v3-120ask.xlsx']
+    firstFiles = ['v1-120ask.xlsx', 'v2-120ask.xlsx', 'v3-120ask.xlsx']
     #print("[统计分类信息]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
     #parseFileForType(firstFiles)
 
