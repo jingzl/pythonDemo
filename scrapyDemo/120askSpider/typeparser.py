@@ -12,6 +12,7 @@ import numpy as np
 import xlrd
 import time
 import datetime
+from openpyxl import load_workbook
 
 CONST_DATA_PATH = './data/'
 CONST_OUTPUT_PATH = './output/'
@@ -21,9 +22,25 @@ def logError(url):
     print('error: ' + url)
 
 
+def append_df_to_excel(excel_file, dl):
+    writer = pd.ExcelWriter(excel_file, engine='openpyxl')
+    writer.book = load_workbook(excel_file)
+    start_row = writer.book['Sheet1'].max_row
+    writer.sheets = {ws.title: ws for ws in writer.book.worksheets}
+    df = pd.DataFrame(dl)
+    df.to_excel(writer, 'Sheet1', startrow=start_row, header=False, index=False)
+    writer.save()
+
+
 def outputURL(url1, url2):
-    print(url1[0]+'_'+url1[1])
-    print(url2)
+    dl = []
+    dl.append([url2])
+    fname = CONST_OUTPUT_PATH + url1[0] + '_' + url1[1] + '.xlsx'
+    if not os.path.exists(fname):
+        df = pd.DataFrame(dl, index=np.arange(len(dl)))
+        df.to_excel(fname, header=False, index=False)
+    else:
+        append_df_to_excel(fname, dl)
 
 
 def parseTypeForURL(typeFile, files):
@@ -37,8 +54,9 @@ def parseTypeForURL(typeFile, files):
                 typeurl = row[0].value.strip()
                 typels.append(typeurl)
 
-        for i in range(len(files)):
+        for i in range(1): #len(files)
             datafile = CONST_DATA_PATH + files[i]
+            print(datafile)
             excel = xlrd.open_workbook(datafile, encoding_override='utf-8')
             if excel:
                 sheet = excel.sheet_by_index(0)
@@ -85,6 +103,7 @@ def parseFileForType(files):
         dl = []
         for i in range(len(files)):
             datafile = CONST_DATA_PATH + files[i]
+            print(datafile)
             excel = xlrd.open_workbook(datafile, encoding_override='utf-8')
             if excel:
                 print(datafile)
@@ -102,12 +121,17 @@ def parseFileForType(files):
 
 
 if __name__ == '__main__':
-    # 解析原始数据统计分类
-    firstFiles = ['v1-120ask.xlsx', 'v2-120ask.xlsx', 'v3-120ask.xlsx']
+    print("开始处理--{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
+    start = time.perf_counter()
+
+    # 解析原始数据统计分类 v1-120ask_test.xlsx
+    firstFiles = ['v1-120ask_test.xlsx', 'v1-120ask.xlsx', 'v2-120ask.xlsx', 'v3-120ask.xlsx']
+    #print("[统计分类信息]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
     #parseFileForType(firstFiles)
 
-    # 确认要爬取的分类，并根据分类文件拆分URL
+    # 手工筛选，确认要爬取的分类，并根据分类文件拆分URL
     typeFile = '分类统计_20201119_FINAL.xlsx'
+    print("[根据确认分类提取URL]-{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
     parseTypeForURL(typeFile, firstFiles)
 
     # 3. 根据URL的统计量倒序排列，优先处理量大的类型
@@ -115,5 +139,8 @@ if __name__ == '__main__':
     # 5. 根据不同类型分别输出新格式的excel
     # 6. 提供结果数据的最终合并操作
 
+    dur = time.perf_counter() - start
+    print("总计用时：{:.2f}s".format(dur))
+    print("处理完毕--{0}".format(datetime.datetime.now().strftime('%Y%m%d %H:%M:%S')).center(100, '-'))
     # end
     print("all end".center(100, '-'))
