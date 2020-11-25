@@ -33,31 +33,32 @@ def pageQuery(keyword, targetsite, browser):
     item_results = browser.find_elements_by_css_selector('.c-result.result')
     for i in range(len(item_results)):
         item_result = item_results[i]
-        audio_tag = item_result.find_elements_by_css_selector('.c-gap-left-middle.c-color-link.c-font-normal')
-        if (len(audio_tag) <= 0):
+        try:
+            #audio_tag = item_result.find_elements_by_css_selector('.c-gap-left-middle.c-color-link.c-font-normal')
+            audio_tag = item_result.find_elements_by_xpath("//span[text()='收听医生语音']")
+            if (len(audio_tag) <= 0):
+                continue
+            # 标题
+            item = item_result.find_element_by_class_name('c-title-text')
+            qtitle = item.text
+            if len(qtitle) <= 0:
+                continue
+            # print(item.text)
+            # 内容
+            qcontent = ''
+            item = item_result.find_element_by_class_name('c-line-clamp2')
+            item2 = item.find_elements_by_tag_name('span')
+            if not item2[1]:
+                continue
+            qcontent = item2[1].text
+            if len(qcontent) <= 0:
+                continue
+            # print(qcontent)
+            # keyword targetsite 提问 回答
+            dl.append([keyword, targetsite, qtitle, qcontent])
+        except Exception as e:
+            #print(e)
             continue
-        # 标题
-        item = item_result.find_element_by_class_name('c-title-text')
-        if not item:
-            continue
-        qtitle = item.text
-        if len(qtitle) <= 0:
-            continue
-        # print(item.text)
-        # 内容
-        qcontent = ''
-        item = item_result.find_element_by_class_name('c-line-clamp2')
-        item2 = item.find_elements_by_tag_name('span')
-        if not item2:
-            continue
-        if not item2[1]:
-            continue
-        qcontent = item2[1].text
-        if len(qcontent) <= 0:
-            continue
-        # print(qcontent)
-        # keyword targetsite 提问 回答
-        dl.append([keyword, targetsite, qtitle, qcontent])
     return dl
 
 
@@ -105,13 +106,13 @@ def query(keyword_config):
     with open(keyword_config, 'r', encoding='UTF-8') as f:
         keyword_list = f.read().splitlines()
     print("共计[{0}]个目标站，[{1}]个关键字".format(len(CONST_TARGETSITE), len(keyword_list)))
-    for i in range(len(keyword_list)):  #
+    for i in range(len(keyword_list)):  # len(keyword_list)
         keyword = keyword_list[i].strip()
         if len(keyword) <= 0:
             continue
         print("--keyword-{0}".format(keyword))
         dl = []
-        for j in range(len(CONST_TARGETSITE)):  #
+        for j in range(len(CONST_TARGETSITE)):  # len(CONST_TARGETSITE)
             targetsite = CONST_TARGETSITE[j]
             print("----site-{0}".format(targetsite))
             dl += baiduQuery(keyword, targetsite)
@@ -155,6 +156,8 @@ def combinedata(qa_path):
 
 
 if __name__ == '__main__':
+    query('./conf/keyword.txt')
+    '''
     if args.argQ:
         query('./conf/keyword.txt')
     elif args.argC:
@@ -163,3 +166,4 @@ if __name__ == '__main__':
         print("invalid parameter, please check -h")
     # end
     print("all end".center(100, '-'))
+    '''
