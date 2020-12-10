@@ -11,7 +11,10 @@ python示例
 医疗站点相关信息爬取
 
 
-##sklearn
+## sklearn
+
+## wordcloud
+1. wordcloudDemo
 
 
 ## other
