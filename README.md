@@ -14,7 +14,7 @@ python示例
 
 ##scrapyDemo 
 爬虫示例
-### 1. medicalSpider
+### medicalSpider
 医疗站点相关信息爬取
 
 
