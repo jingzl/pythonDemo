@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="gb2312" standalone="yes" ?>
+<geodisplay_mode>
+    <!--点显示样式 poi的图标 暂时不做-->
+    <!-- 定义的顺序：Sx（比例尺等级），BK（背景100），ROAD（道路1000），NAME（注记2000），INDEX（索引3000） -->
+    <point mode_num="2000">
+
+        <!-- NAME -->
+        <!-- 首都 -->
+        <dispmode drawtype="4" subcode="306" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2000</dispmode>
+        <!-- 直辖市 -->
+        <dispmode drawtype="4" subcode="308" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2001</dispmode>
+        <!-- 省会 -->
+        <dispmode drawtype="4" subcode="308" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2002</dispmode>
+        <!-- 岛屿 -->
+        <dispmode drawtype="4" subcode="0" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2003</dispmode>
+        <!-- 地级市 -->
+        <dispmode drawtype="4" subcode="1072" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2004</dispmode>
+        <!-- 区县 -->
+        <dispmode drawtype="4" subcode="304" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2005</dispmode>
+        <!-- 乡 镇 -->
+        <dispmode drawtype="4" subcode="39319" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2006</dispmode>
+        <!-- 山 -->
+        <dispmode drawtype="4" subcode="44800" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2008</dispmode>
+        <!-- 桥 -->
+        <dispmode drawtype="4" subcode="39320" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2010</dispmode>
+        <!-- 学校 -->
+        <dispmode drawtype="4" subcode="1123" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2011</dispmode>
+        <!-- 风景名胜 动物园,植物园,公园,水族馆/海洋馆-->
+        <dispmode drawtype="4" subcode="1384" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2012</dispmode>
+        <!-- 机关 -->
+        <dispmode drawtype="4" subcode="28800" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2015</dispmode>
+        <!-- 图书馆 -->
+        <dispmode drawtype="4" subcode="37760" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2016</dispmode>
+        <!-- 医院 -->
+        <dispmode drawtype="4" subcode="18433" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2017</dispmode>
+        <!-- 体育场馆 滑雪 野营地 海水浴场 游乐园 高尔夫 赛马场 武术馆 -->
+        <dispmode drawtype="4" subcode="1317" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2018</dispmode>
+        <!-- 休闲娱乐场所 -->
+        <dispmode drawtype="4" subcode="25984" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2019</dispmode>
+        <!-- 电信 -->
+        <dispmode drawtype="4" subcode="1083" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2020</dispmode>
+        <!-- 星级酒店 -->
+        <dispmode drawtype="4" subcode="20608" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2021</dispmode>
+        <!-- 购物中心 -->
+        <dispmode drawtype="4" subcode="8704" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2022</dispmode>
+        <!-- 银行 -->
+        <dispmode drawtype="4" subcode="41344" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2023</dispmode>
+        <!-- 广播 -->
+        <dispmode drawtype="4" subcode="1029" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2024</dispmode>
+        <!-- 大厦 -->
+        <dispmode drawtype="4" subcode="455" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2025</dispmode>
+        <!-- 汽车销售 汽车服务 -->
+        <dispmode drawtype="4" subcode="17152" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2026</dispmode>
+        <!-- 中餐馆 -->
+        <dispmode drawtype="4" subcode="4992" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2027</dispmode>
+        <!-- 培训中心 -->
+        <dispmode drawtype="4" subcode="29824" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2028</dispmode>
+        <!-- 地铁站 -->
+        <dispmode drawtype="4" subcode="8960" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2035</dispmode>
+        <!-- 加油站 -->
+        <dispmode drawtype="4" subcode="33664" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2036</dispmode>
+        <!-- 停车场 -->
+        <dispmode drawtype="4" subcode="33536" fontname="Wingdings" color="RGB(255,0,0)" size="2" height="12" width="12" alpha="255">2037</dispmode>
+
+
+
+    </point>
+
+    <!--线显示样式 路 铁路 国界线 高速 等-->
+    <line mode_num="210">
+
+        <!-- BK -->
+        <!-- 国界 -->
+        <dispmode drawtype="2" forecolor="RGB(172,183,199)" width="1" backcolor="RGB(126,151,169)" edgewidth="0" alpha="255">100</dispmode>
+        <!-- 省界 -->
+        <dispmode drawtype="2" forecolor="RGB(167,167,167)" width="1" backcolor="RGB(167,167,167)" edgewidth="1" alpha="255">101</dispmode>
+        <!-- 市界 -->
+        <dispmode drawtype="2" forecolor="RGB(147,147,147)" width="1" backcolor="RGB(147,147,147)" edgewidth="1" alpha="255">102</dispmode>
+        <!-- 县界 -->
+        <dispmode drawtype="2" forecolor="RGB(127,127,127)" width="1" backcolor="RGB(127,127,127)" edgewidth="1" alpha="255">103</dispmode>
+        <!-- 铁路-->
+        <dispmode drawtype="1" forecolor="RGB(150,150,150)" width="4" backcolor="RGB(255,255,255)" edgewidth="1" alpha="255">110</dispmode>
+
+        <!--ROAD-->
+        <!--l~m 数据-->
+        <!-- 一级路网 -->
+        <dispmode drawtype="3" forecolor="RGB(250,158,37)" width="3" backcolor="RGB(239,116,32)" edgewidth="1" alpha="255">1100</dispmode>
+        <!-- 二级路网 -->
+        <dispmode drawtype="3" forecolor="RGB(255,225,104)" width="3" backcolor="RGB(229,189,76)" edgewidth="1" alpha="255">1101</dispmode>
+                
+        <!--k (13)数据-->
+        <!-- 一级路网 -->
+        <dispmode drawtype="3" forecolor="RGB(250,158,37)" width="6" backcolor="RGB(239,116,32)" edgewidth="3" alpha="255">1171</dispmode>
+        <!-- 二级路网 -->
+        <dispmode drawtype="3" forecolor="RGB(255,225,104)" width="4" backcolor="RGB(229,189,76)" edgewidth="2" alpha="255">1172</dispmode>
+        <!-- 三级路网 -->
+        <dispmode drawtype="3" forecolor="RGB(255,253,169)" width="3" backcolor="RGB(213,201,149)" edgewidth="1" alpha="255">1173</dispmode>
+        
+        <!--k (14)数据-->
+        <!-- 一级路网 -->
+        <dispmode drawtype="3" forecolor="RGB(250,158,37)" width="8" backcolor="RGB(239,116,32)" edgewidth="3" alpha="255">1174</dispmode>
+        <!-- 二级路网 -->
+        <dispmode drawtype="3" forecolor="RGB(255,225,104)" width="5" backcolor="RGB(229,189,76)" edgewidth="2" alpha="255">1175</dispmode>
+        <!-- 三级路网 -->
+        <dispmode drawtype="3" forecolor="RGB(255,253,169)" width="3" backcolor="RGB(213,201,149)" edgewidth="1" alpha="255">1176</dispmode>
+       
+       <!--j (15)数据-->
+        <!-- 一级路网 -->
+        <dispmode drawtype="3" forecolor="RGB(250,158,37)" width="10" backcolor="RGB(239,116,32)" edgewidth="4" alpha="255">1180</dispmode>
+        <!-- 二级路网 -->
+        <dispmode drawtype="3" forecolor="RGB(255,225,104)" width="8" backcolor="RGB(229,189,76)" edgewidth="3" alpha="255">1181</dispmode>
+        <!-- 三级路网 -->
+        <dispmode drawtype="3" forecolor="RGB(255,253,169)" width="6" backcolor="RGB(213,201,149)" edgewidth="2" alpha="255">1182</dispmode>
+        <!-- 四级路网 -->
+        <dispmode drawtype="3" forecolor="RGB(250,250,250)" width="4" backcolor="RGB(212,208,200)" edgewidth="1" alpha="255">1183</dispmode>    
+       
+        <!--j (16)数据-->
+        <!-- 一级路网 -->
+        <dispmode drawtype="3" forecolor="RGB(250,158,37)" width="12" backcolor="RGB(239,116,32)" edgewidth="4" alpha="255">1184</dispmode>
+        <!-- 二级路网 -->
+        <dispmode drawtype="3" forecolor="RGB(255,225,104)" width="10" backcolor="RGB(229,189,76)" edgewidth="3" alpha="255">1185</dispmode>
+        <!-- 三级路网 -->
+        <dispmode drawtype="3" forecolor="RGB(255,253,169)" width="8" backcolor="RGB(213,201,149)" edgewidth="2" alpha="255">1186</dispmode>
+        <!-- 四级路网 -->
+        <dispmode drawtype="3" forecolor="RGB(250,250,250)" width="5" backcolor="RGB(212,208,200)" edgewidth="1" alpha="255">1187</dispmode>             
+				
+        <!--i (17) 数据-->
+        <!-- 一级路网 -->
+        <dispmode drawtype="3" forecolor="RGB(250,158,37)" width="14" backcolor="RGB(239,116,32)" edgewidth="5" alpha="255">1190</dispmode>
+        <!-- 二级路网 -->
+        <dispmode drawtype="3" forecolor="RGB(255,225,104)" width="12" backcolor="RGB(229,189,76)" edgewidth="3" alpha="255">1191</dispmode>
+        <!-- 三级路网 -->
+        <dispmode drawtype="3" forecolor="RGB(255,253,169)" width="10" backcolor="RGB(213,201,149)" edgewidth="2" alpha="255">1192</dispmode>
+        <!-- 四级路网 -->
+        <dispmode drawtype="3" forecolor="RGB(250,250,250)" width="8" backcolor="RGB(212,208,200)" edgewidth="2" alpha="255">1193</dispmode>
+        <!-- 全路网 -->
+        <dispmode drawtype="3" forecolor="RGB(237,237,237)" width="6" backcolor="RGB(212,208,200)" edgewidth="2" alpha="255">1194</dispmode>
+				
+        <!--i (18) 数据-->
+        <!-- 一级路网 -->
+        <dispmode drawtype="3" forecolor="RGB(250,158,37)" width="16" backcolor="RGB(239,116,32)" edgewidth="5" alpha="255">1195</dispmode>
+        <!-- 二级路网 -->
+        <dispmode drawtype="3" forecolor="RGB(255,225,104)" width="14" backcolor="RGB(229,189,76)" edgewidth="4" alpha="255">1196</dispmode>
+        <!-- 三级路网 -->
+        <dispmode drawtype="3" forecolor="RGB(255,253,169)" width="12" backcolor="RGB(213,201,149)" edgewidth="3" alpha="255">1197</dispmode>
+        <!-- 四级路网 -->
+        <dispmode drawtype="3" forecolor="RGB(250,250,250)" width="10" backcolor="RGB(212,208,200)" edgewidth="3" alpha="255">1198</dispmode>
+        <!-- 全路网 -->
+        <dispmode drawtype="3" forecolor="RGB(237,237,237)" width="8" backcolor="RGB(212,208,200)" edgewidth="3" alpha="255">1199</dispmode>
+    </line>
+
+    <!--面显示样式 湖泊等-->
+    <area mode_num="70">
+
+        <!--BK-->
+        <!-- 海岸线 单线河 双线河 湖泊 -->
+        <dispmode drawtype="1" fillcolor="RGB(179,209,255)" edgewidth="0" edgecolor="RGB(179,209,255)" alpha="255">100</dispmode>
+        <!--绿地-->
+        <dispmode drawtype="1" fillcolor="RGB(201,223,175)" edgewidth="0" edgecolor="RGB(201,223,175)" alpha="255">103</dispmode>
+        <!-- 交通设施 火车站，飞机场等-->
+        <dispmode drawtype="1" fillcolor="RGB(199,199,212)" edgewidth="2" edgecolor="RGB(166,163,171)" alpha="255">104</dispmode>
+        <!-- 文化设施 美术馆，图书馆，博物馆等-->
+        <dispmode drawtype="1" fillcolor="RGB(199,199,212)" edgewidth="2" edgecolor="RGB(166,163,171)" alpha="255">105</dispmode>
+		<!-- 休闲设施 运动场所，娱乐区，影剧院，观光景点-->
+        <dispmode drawtype="1" fillcolor="RGB(199,199,212)" edgewidth="2" edgecolor="RGB(166,163,171)" alpha="255">106</dispmode>
+		<!-- 大众设施 政府，医院，宾馆酒店-->
+        <dispmode drawtype="1" fillcolor="RGB(199,199,212)" edgewidth="2" edgecolor="RGB(166,163,171)" alpha="255">107</dispmode>
+		<!-- 大型建筑 区工业区 -->
+        <dispmode drawtype="1" fillcolor="RGB(199,199,212)" edgewidth="2" edgecolor="RGB(166,163,171)" alpha="255">108</dispmode>
+		<!-- 独立建筑物 政府建筑物，主要目标物，其它建筑物-->
+        <dispmode drawtype="1" fillcolor="RGB(199,199,212)" edgewidth="2" edgecolor="RGB(166,163,171)" alpha="255">109</dispmode>
+        
+    </area>
+
+    <!--文字显示样式  桥名 路名-->
+    <txt mode_num="200">
+
+        <!--ROAD-->
+        <!-- 路名 -->
+        <dispmode drawtype="29"  subcode="1" fontname="Arial" fontsize="14" fontcolor="RGB(121,121,180)" backcolor="RGB(255,255,255)" roundlinecolor="RGB(255,255,255)" edgewidth="1" bold="0" underline="0" italic="0" shade="0" alpha="255">1150</dispmode>
+
+		<!--NAME-->
+        <!--首府、国家名称 -->
+        <dispmode drawtype="1"  subcode="1" fontname="Arial" fontsize="14" fontcolor="RGB(225,0,0)" backcolor="RGB(255,255,255)" roundlinecolor="RGB(255,255,255)" edgewidth="1" bold="0" underline="0" italic="0" shade="0" alpha="255">2000</dispmode>
+        <!--省会、直辖市-->
+        <dispmode drawtype="1"  subcode="1" fontname="Arial" fontsize="14" fontcolor="RGB(135,0,0)" backcolor="RGB(255,255,255)" roundlinecolor="RGB(255,255,255)" edgewidth="1" bold="0" underline="0" italic="0" shade="0" alpha="255">2001</dispmode>
+        <!--地级市-->
+        <dispmode drawtype="1"  subcode="1" fontname="Arial" fontsize="14" fontcolor="RGB(40,40,40)" backcolor="RGB(255,255,255)" roundlinecolor="RGB(255,255,255)" edgewidth="1" bold="0" underline="0" italic="0" shade="0" alpha="255">2003</dispmode>
+        <!-- 乡 镇 -->
+        <dispmode drawtype="1"  subcode="1" fontname="Arial" fontsize="14" fontcolor="RGB(128,128,128)" backcolor="RGB(255,255,255)" roundlinecolor="RGB(255,255,255)" edgewidth="1" bold="0" underline="0" italic="0" shade="0" alpha="255">2005</dispmode>
+        <!-- 桥 -->
+        <dispmode drawtype="1"  subcode="1" fontname="Arial" fontsize="14" fontcolor="RGB(133,106,183)" backcolor="RGB(242,249,255)" roundlinecolor="RGB(255,255,255)" edgewidth="1" bold="0" underline="0" italic="0" shade="0" alpha="255">2010</dispmode>
+        <!-- 寺院 教会 公园 星级酒店 学校 小区 -->
+        <dispmode drawtype="1"  subcode="1" fontname="Arial" fontsize="14" fontcolor="RGB(138,138,138)" backcolor="RGB(255,251,255)" roundlinecolor="RGB(255,255,255)" edgewidth="1" bold="0" underline="0" italic="0" shade="0" alpha="255">2011</dispmode>
+        <!--风景名胜-->
+        <dispmode drawtype="1"  subcode="1" fontname="Arial" fontsize="14" fontcolor="RGB(138,138,138)" backcolor="RGB(255,251,255)" roundlinecolor="RGB(255,255,255)" edgewidth="1" bold="0" underline="0" italic="0" shade="0" alpha="255">2012</dispmode>
+        <!--通用-->
+        <dispmode drawtype="1"  subcode="1" fontname="Arial" fontsize="14" fontcolor="RGB(138,138,138)" backcolor="RGB(255,251,255)" roundlinecolor="RGB(255,255,255)" edgewidth="1" bold="0" underline="0" italic="0" shade="0" alpha="255">2020</dispmode>
+        
+    </txt>
+
+</geodisplay_mode>

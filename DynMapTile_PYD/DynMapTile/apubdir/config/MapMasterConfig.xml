@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="gb2312" standalone="yes" ?>
+<MapMaster_Config>
+	<!-- 数据路径 -->
+	<data_path>C:\mcmdndata\易图通科技(北京)有限公司_zxt130702\CMDN-beijingtianjinhebei20130702</data_path>
+    <outmap_path>C:\output</outmap_path>
+    <outtxt_path>C:\output</outtxt_path>
+    <!-- 显示样式模式 -->
+    <displaymode>0</displaymode>
+    <!-- 整图范围 -->
+    <maprect dminx="60" dminy="0" dmaxx="156" dmaxy="64"/>
+    <!-- 比例尺等级 -->
+    <mapscale scale_num="18">
+		<scale mlevel="q">1</scale>
+        <scale mlevel="q">2</scale>
+        <scale mlevel="p">3</scale>
+        <scale mlevel="p">4</scale>
+        <scale mlevel="o">5</scale>
+        <scale mlevel="o">6</scale>
+        <scale mlevel="n">7</scale>
+        <scale mlevel="n">8</scale>
+        <scale mlevel="m">9</scale>
+        <scale mlevel="m">10</scale>
+        <scale mlevel="l">11</scale>
+        <scale mlevel="l">12</scale>
+        <scale mlevel="k">13</scale>
+        <scale mlevel="k">14</scale>
+        <scale mlevel="j">15</scale>
+        <scale mlevel="j">16</scale>
+        <scale mlevel="i">17</scale>
+        <scale mlevel="i">18</scale>
+    </mapscale>
+    <!-- 显示配置文件 -->
+    <config_file>
+        <mapdisplay>MapDisplay_Config.xml</mapdisplay>
+        <dispmode>DisplayMode_Config.xml</dispmode>
+    </config_file>
+</MapMaster_Config>

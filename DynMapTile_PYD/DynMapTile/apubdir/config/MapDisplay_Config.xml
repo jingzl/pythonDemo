@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="gb2312" standalone="yes" ?>
+<mapdisplay>
+		<!-- 第一种显示样式 比如白天，黑夜等 -->
+		<displaystyle type="0">
+				<!-- 每层比例尺单独配置 -->
+				<scalelevel scale="0"> <!-- q -->
+					<!-- 背景底色 -->
+					<grounding>RGB(237,237,237)</grounding>
+					<!-- 格网线色，目前没有使用 -->
+					<grid>RGB(255,255,255)</grid>
+					<!-- 图层 -->
+					<layers>
+						<layer id="1" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="100" namedispmode="-1"/>
+						<layer id="9" geotype="3" featuretype="1" kind="-1" subkind="-1" shpdispmode="100" namedispmode="-1"/>
+						<layer id="64" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2000" namedispmode="2000"/>
+					</layers>
+				</scalelevel>
+				<scalelevel scale="1">
+					<grounding>RGB(237,237,237)</grounding>
+					<grid>RGB(255,255,255)</grid>
+					<layers>
+						<layer id="1" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="100" namedispmode="-1"/>
+						<layer id="9" geotype="3" featuretype="1" kind="-1" subkind="-1" shpdispmode="100" namedispmode="-1"/>
+						<layer id="64" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2000" namedispmode="2000"/>
+					</layers>
+				</scalelevel>
+				<scalelevel scale="2"> <!-- p -->
+					<grounding>RGB(237,237,237)</grounding>
+					<grid>RGB(255,255,255)</grid>
+					<layers>
+						
+						<layer id="1" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="100" namedispmode="-1"/>
+						
+						<layer id="9" geotype="3" featuretype="1" kind="-1" subkind="-1" shpdispmode="100" namedispmode="-1"/>
+						<layer id="10" geotype="3" featuretype="1" kind="-1" subkind="-1" shpdispmode="101" namedispmode="-1"/>
+		
+						<layer id="64" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2002" namedispmode="2001"/>
+						<layer id="6400" clone="64" geotype="1" featuretype="5" kind="2010101" subkind="-1" shpdispmode="2000" namedispmode="2000"/>
+						<layer id="67" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2003" namedispmode="2010"/>
+						
+					</layers>
+				</scalelevel>
+				<scalelevel scale="3">
+					<grounding>RGB(237,237,237)</grounding>
+					<grid>RGB(255,255,255)</grid>
+					<layers>
+						
+						<layer id="1" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="100" namedispmode="-1"/>
+						
+						<layer id="9" geotype="3" featuretype="1" kind="-1" subkind="-1" shpdispmode="100" namedispmode="-1"/>
+						<layer id="10" geotype="3" featuretype="1" kind="-1" subkind="-1" shpdispmode="101" namedispmode="-1"/>
+		
+						<layer id="64" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2002" namedispmode="2001"/>
+						<layer id="6400" clone="64" geotype="1" featuretype="5" kind="2010101" subkind="-1" shpdispmode="2000" namedispmode="2000"/>
+						<layer id="67" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2003" namedispmode="2010"/>
+						
+					</layers>
+				</scalelevel>
+				<scalelevel scale="4"> <!-- o -->
+					<grounding>RGB(237,237,237)</grounding>
+					<grid>RGB(255,255,255)</grid>
+					<layers>
+						
+						<layer id="1" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="100" namedispmode="-1"/>
+						
+						<layer id="10" geotype="3" featuretype="1" kind="-1" subkind="-1" shpdispmode="101" namedispmode="-1"/>
+		
+						<layer id="64" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2002" namedispmode="2001"/>
+						<layer id="6400" clone="64" geotype="1" featuretype="5" kind="2010101" subkind="-1" shpdispmode="2000" namedispmode="2000"/>
+						<layer id="67" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2003" namedispmode="2010"/>
+						
+					</layers>
+				</scalelevel>
+				<scalelevel scale="5">
+					<grounding>RGB(237,237,237)</grounding>
+					<grid>RGB(255,255,255)</grid>
+					<layers>
+						
+						<layer id="1" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="100" namedispmode="-1"/>
+						
+						<layer id="10" geotype="3" featuretype="1" kind="-1" subkind="-1" shpdispmode="101" namedispmode="-1"/>
+		
+						<layer id="64" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2002" namedispmode="2001"/>
+						<layer id="6400" clone="64" geotype="1" featuretype="5" kind="2010101" subkind="-1" shpdispmode="2000" namedispmode="2000"/>
+						<layer id="67" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2003" namedispmode="2010"/>
+						
+					</layers>
+				</scalelevel>
+				<scalelevel scale="6"> <!-- n -->
+					<grounding>RGB(237,237,237)</grounding>
+					<grid>RGB(255,255,255)</grid>
+					<layers>
+						
+						<layer id="1" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="100" namedispmode="-1"/>
+						
+						<layer id="29" geotype="3" featuretype="1" kind="-1" subkind="-1" shpdispmode="102" namedispmode="-1"/>
+		
+						<layer id="64" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2004" namedispmode="2003"/>
+						<layer id="67" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2003" namedispmode="2010"/>
+					</layers>
+				</scalelevel>
+				<scalelevel scale="7">
+					<grounding>RGB(237,237,237)</grounding>
+					<grid>RGB(255,255,255)</grid>
+					<layers>
+						
+						<layer id="1" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="100" namedispmode="-1"/>
+						
+						<layer id="29" geotype="3" featuretype="1" kind="-1" subkind="-1" shpdispmode="102" namedispmode="-1"/>
+		
+						<layer id="64" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2004" namedispmode="2003"/>
+						<layer id="67" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2003" namedispmode="2010"/>
+					</layers>
+				</scalelevel>
+				<scalelevel scale="8"> <!-- m -->
+						<grounding>RGB(237,237,237)</grounding>
+						<grid>RGB(255,255,255)</grid>
+						<layers>
+							
+							<layer id="1" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="100" namedispmode="-1"/>
+							
+							<layer id="29" geotype="3" featuretype="1" kind="-1" subkind="-1" shpdispmode="102" namedispmode="-1"/>
+							<layer id="24" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1100" namedispmode="1150"/>							
+			
+							<layer id="64" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2004" namedispmode="2003"/>
+							<layer id="6400" clone="64" geotype="1" featuretype="5" kind="2010104" subkind="-1" shpdispmode="2005" namedispmode="2003"/>
+							<layer id="67" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2003" namedispmode="2010"/>
+							
+						</layers>
+				</scalelevel>
+				<scalelevel scale="9">
+					<grounding>RGB(237,237,237)</grounding>
+					<grid>RGB(255,255,255)</grid>
+					<layers>
+						
+						<layer id="1" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="100" namedispmode="-1"/>
+						
+						<layer id="29" geotype="3" featuretype="1" kind="-1" subkind="-1" shpdispmode="102" namedispmode="-1"/>
+						<layer id="24" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1100" namedispmode="1150"/>						
+		
+						<layer id="64" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2004" namedispmode="2003"/>
+						<layer id="6400" clone="64" geotype="1" featuretype="5" kind="2010104" subkind="-1" shpdispmode="2005" namedispmode="2003"/>
+						<layer id="67" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2003" namedispmode="2010"/>
+						
+					</layers>
+				</scalelevel>
+				<scalelevel scale="10"> <!-- l -->
+					<grounding>RGB(237,237,237)</grounding>
+					<grid>RGB(255,255,255)</grid>
+					<layers>
+						
+						<layer id="1" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="100" namedispmode="-1"/>
+						
+						<layer id="30" geotype="3" featuretype="1" kind="-1" subkind="-1" shpdispmode="103" namedispmode="-1"/>											
+						<layer id="25" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1101" namedispmode="1150"/>		
+						<layer id="24" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1100" namedispmode="1150"/>			
+								
+						<layer id="52" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2010" namedispmode="2010"/>
+						<layer id="64" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2004" namedispmode="2003"/>
+						<layer id="6400" clone="64" geotype="1" featuretype="5" kind="2010104" subkind="-1" shpdispmode="2005" namedispmode="2003"/>
+						<layer id="67" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2003" namedispmode="2010"/>
+						
+					</layers>
+				</scalelevel>
+				<scalelevel scale="11">
+					<grounding>RGB(237,237,237)</grounding>
+					<grid>RGB(255,255,255)</grid>
+					<layers>
+						
+						<layer id="1" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="100" namedispmode="-1"/>
+						
+						<layer id="30" geotype="3" featuretype="1" kind="-1" subkind="-1" shpdispmode="103" namedispmode="-1"/>
+						<layer id="25" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1101" namedispmode="1150"/>										
+						<layer id="24" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1100" namedispmode="1150"/>						
+						
+										
+		
+						<layer id="52" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2010" namedispmode="2010"/>
+						<layer id="64" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2004" namedispmode="2003"/>
+						<layer id="6400" clone="64" geotype="1" featuretype="5" kind="2010104" subkind="-1" shpdispmode="2005" namedispmode="2003"/>
+						<layer id="67" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2003" namedispmode="2010"/>
+						
+					</layers>
+				</scalelevel>
+				<scalelevel scale="12"> <!-- k -->
+					<grounding>RGB(237,237,237)</grounding>
+					<grid>RGB(255,255,255)</grid>
+					<layers>
+						
+						<layer id="1" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="100" namedispmode="-1"/>
+						<layer id="2" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="103" namedispmode="-1"/>
+						
+						<layer id="11" geotype="3" featuretype="1" kind="-1" subkind="-1" shpdispmode="110" namedispmode="-1"/>
+						<layer id="26" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1173" namedispmode="1150"/>
+						<layer id="25" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1172" namedispmode="1150"/>
+						<layer id="24" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1171" namedispmode="1150"/>
+													
+						<layer id="52" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2010" namedispmode="2010"/>
+						<layer id="55" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2011" namedispmode="2011"/>
+						<layer id="58" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2012" namedispmode="2012"/>
+						<layer id="64" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2005" namedispmode="2005"/>
+						<layer id="67" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2010" namedispmode="2010"/>
+						
+					</layers>
+				</scalelevel>
+				<scalelevel scale="13">
+					<grounding>RGB(237,237,237)</grounding>
+					<grid>RGB(255,255,255)</grid>
+					<layers>
+						
+						<layer id="1" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="100" namedispmode="-1"/>
+						<layer id="2" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="103" namedispmode="-1"/>
+						
+						<layer id="11" geotype="3" featuretype="1" kind="-1" subkind="-1" shpdispmode="110" namedispmode="-1"/>
+						<layer id="26" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1176" namedispmode="1150"/>						
+						<layer id="25" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1175" namedispmode="1150"/>
+						<layer id="24" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1174" namedispmode="1150"/>
+						
+							
+						<layer id="52" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2010" namedispmode="2010"/>
+						<layer id="55" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2011" namedispmode="2011"/>
+						<layer id="58" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2012" namedispmode="2012"/>
+						<layer id="64" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2005" namedispmode="2005"/>
+						<layer id="67" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2010" namedispmode="2010"/>
+						
+					</layers>
+				</scalelevel>
+				<scalelevel scale="14"> <!-- j -->
+					<grounding>RGB(237,237,237)</grounding>
+					<grid>RGB(255,255,255)</grid>
+					<layers>
+						
+						<layer id="1" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="100" namedispmode="-1"/>
+						<layer id="2" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="103" namedispmode="-1"/>
+						<layer id="3" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="104" namedispmode="-1"/>
+						<layer id="6" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="107" namedispmode="-1"/>
+						<layer id="7" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="108" namedispmode="-1"/>
+						
+						<layer id="11" geotype="3" featuretype="1" kind="-1" subkind="-1" shpdispmode="110" namedispmode="-1"/>
+						<layer id="27" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1183" namedispmode="1150"/>
+						<layer id="26" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1182" namedispmode="1150"/>
+						<layer id="25" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1181" namedispmode="1150"/>
+						<layer id="24" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1180" namedispmode="1150"/>
+								
+						<layer id="52" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2010" namedispmode="2010"/>
+						<layer id="55" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2011" namedispmode="2011"/>
+						<layer id="56" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2012" namedispmode="2012"/>
+						<layer id="58" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2012" namedispmode="2012"/>
+						<layer id="64" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2005" namedispmode="2005"/>
+						<layer id="67" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2010" namedispmode="2010"/>
+						
+					</layers>
+				</scalelevel>
+				<scalelevel scale="15">
+					<grounding>RGB(237,237,237)</grounding>
+					<grid>RGB(255,255,255)</grid>
+					<layers>
+						
+						<layer id="1" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="100" namedispmode="-1"/>
+						<layer id="2" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="103" namedispmode="-1"/>
+						<layer id="3" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="104" namedispmode="-1"/>
+						<layer id="6" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="107" namedispmode="-1"/>
+						<layer id="7" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="108" namedispmode="-1"/>
+						
+						<layer id="11" geotype="3" featuretype="1" kind="-1" subkind="-1" shpdispmode="110" namedispmode="-1"/>
+						<layer id="27" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1187" namedispmode="1150"/>
+						<layer id="26" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1186" namedispmode="1150"/>
+						<layer id="25" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1185" namedispmode="1150"/>
+						<layer id="24" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1184" namedispmode="1150"/>										
+						
+						<layer id="52" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2010" namedispmode="2010"/>
+						<layer id="55" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2011" namedispmode="2011"/>
+						<layer id="56" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2012" namedispmode="2012"/>
+						<layer id="58" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2012" namedispmode="2012"/>
+						<layer id="64" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2005" namedispmode="2005"/>
+						<layer id="67" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2010" namedispmode="2010"/>
+						
+					</layers>
+				</scalelevel>
+				<scalelevel scale="16"> <!-- i -->
+					<grounding>RGB(237,237,237)</grounding>
+					<grid>RGB(255,255,255)</grid>
+					<layers>
+						
+						<layer id="1" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="100" namedispmode="1150"/>
+						<layer id="2" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="103" namedispmode="1150"/>
+						<layer id="3" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="104" namedispmode="1150"/>
+						<layer id="4" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="105" namedispmode="1150"/>
+						<layer id="5" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="106" namedispmode="1150"/>
+						<layer id="6" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="107" namedispmode="1150"/>
+						<layer id="7" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="108" namedispmode="1150"/>
+						<layer id="8" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="109" namedispmode="1150"/>
+										
+						<layer id="11" geotype="3" featuretype="1" kind="-1" subkind="-1" shpdispmode="110" namedispmode="-1"/>
+						<layer id="28" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1194" namedispmode="1150"/>
+						<layer id="27" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1193" namedispmode="1150"/>
+						<layer id="26" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1192" namedispmode="1150"/>
+						<layer id="25" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1191" namedispmode="1150"/>
+						<layer id="24" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1190" namedispmode="1150"/>
+															
+						<layer id="52" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2010" namedispmode="2020"/>
+						<layer id="53" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2016" namedispmode="2020"/>
+						<layer id="55" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2011" namedispmode="2011"/>
+						<layer id="56" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2012" namedispmode="2012"/>
+						<layer id="58" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2012" namedispmode="2012"/>
+						<layer id="64" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2005" namedispmode="2005"/>
+						<layer id="67" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2010" namedispmode="2010"/>
+						<layer id="68" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2025" namedispmode="2020"/>
+						<layer id="70" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2027" namedispmode="2020"/>
+						
+					</layers>
+				</scalelevel>
+				<scalelevel scale="17">
+					<grounding>RGB(237,237,237)</grounding>
+					<grid>RGB(255,255,255)</grid>
+					<layers>
+						
+						<layer id="1" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="100" namedispmode="1150"/>
+						<layer id="2" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="103" namedispmode="1150"/>
+						<layer id="3" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="104" namedispmode="1150"/>
+						<layer id="4" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="105" namedispmode="1150"/>
+						<layer id="5" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="106" namedispmode="1150"/>
+						<layer id="6" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="107" namedispmode="1150"/>
+						<layer id="7" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="108" namedispmode="1150"/>
+						<layer id="8" geotype="5" featuretype="1" kind="-1" subkind="-1" shpdispmode="109" namedispmode="1150"/>
+										
+						<layer id="11" geotype="3" featuretype="1" kind="-1" subkind="-1" shpdispmode="110" namedispmode="-1"/>
+						<layer id="28" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1199" namedispmode="1150"/>
+						<layer id="27" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1198" namedispmode="1150"/>
+						<layer id="26" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1197" namedispmode="1150"/>
+						<layer id="25" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1196" namedispmode="1150"/>
+						<layer id="24" geotype="3" featuretype="3" kind="-1" subkind="-1" shpdispmode="1195" namedispmode="1150"/>
+																	
+						<layer id="52" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2010" namedispmode="2020"/>
+						<layer id="53" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2016" namedispmode="2020"/>
+						<layer id="55" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2011" namedispmode="2011"/>
+						<layer id="56" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2012" namedispmode="2012"/>
+						<layer id="58" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2012" namedispmode="2012"/>
+						<layer id="64" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2005" namedispmode="2005"/>
+						<layer id="67" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2010" namedispmode="2010"/>
+						<layer id="68" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2025" namedispmode="2020"/>
+						<layer id="70" geotype="1" featuretype="5" kind="-1" subkind="-1" shpdispmode="2027" namedispmode="2020"/>
+						
+					</layers>
+				</scalelevel>
+
+		</displaystyle>
+
+</mapdisplay>

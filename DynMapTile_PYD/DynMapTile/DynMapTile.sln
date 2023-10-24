@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DynMapTile", "DynMapTile\DynMapTile.vcproj", "{D654BF75-F114-4B1F-82E4-8628072BE126}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MapDisplayLib", "MapDisplayLib\MapDisplayLib.vcproj", "{81925412-353D-4FD7-8BE8-9437AEA524AC}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OutputLib", "OutputLib\OutputLib.vcproj", "{4BCE7C3B-EB9D-46F0-999A-08487139C17B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MCMDNDataLib", "MCMDNDataLib\MCMDNDataLib.vcproj", "{F5EE4E10-EA2E-46AB-BB26-3ECC75393551}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D654BF75-F114-4B1F-82E4-8628072BE126}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D654BF75-F114-4B1F-82E4-8628072BE126}.Debug|Win32.Build.0 = Debug|Win32
+		{D654BF75-F114-4B1F-82E4-8628072BE126}.Release|Win32.ActiveCfg = Release|Win32
+		{D654BF75-F114-4B1F-82E4-8628072BE126}.Release|Win32.Build.0 = Release|Win32
+		{81925412-353D-4FD7-8BE8-9437AEA524AC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{81925412-353D-4FD7-8BE8-9437AEA524AC}.Debug|Win32.Build.0 = Debug|Win32
+		{81925412-353D-4FD7-8BE8-9437AEA524AC}.Release|Win32.ActiveCfg = Release|Win32
+		{81925412-353D-4FD7-8BE8-9437AEA524AC}.Release|Win32.Build.0 = Release|Win32
+		{4BCE7C3B-EB9D-46F0-999A-08487139C17B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4BCE7C3B-EB9D-46F0-999A-08487139C17B}.Debug|Win32.Build.0 = Debug|Win32
+		{4BCE7C3B-EB9D-46F0-999A-08487139C17B}.Release|Win32.ActiveCfg = Release|Win32
+		{4BCE7C3B-EB9D-46F0-999A-08487139C17B}.Release|Win32.Build.0 = Release|Win32
+		{F5EE4E10-EA2E-46AB-BB26-3ECC75393551}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F5EE4E10-EA2E-46AB-BB26-3ECC75393551}.Debug|Win32.Build.0 = Debug|Win32
+		{F5EE4E10-EA2E-46AB-BB26-3ECC75393551}.Release|Win32.ActiveCfg = Release|Win32
+		{F5EE4E10-EA2E-46AB-BB26-3ECC75393551}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
