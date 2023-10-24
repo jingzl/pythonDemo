@@ -5,6 +5,13 @@ python demo
 ##python123
 python示例
 
+##DynMapTile_PYD
+##python-clib
+通过python调用C++的库
+
+##testModule
+模块调用测试
+
 ##scrapyDemo 
 爬虫示例
 ### 1. medicalSpider
